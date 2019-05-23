@@ -96,209 +96,173 @@ describe('search reducer', () => {
   });
 
   describe('response', () => {
-    it('should handle a productive search response', () => {
-      // Arrange
-      const state = cloneAndMerge({
-        busy: true,
-        reset: {
-          available: true,
-        },
-        input: {
-          string: 'oo',
-        },
-      });
-      const payload = {
-        type: 'SEARCH_RESPONSE',
-        payload: {
-          response: {
-            count: 3,
-            next: null,
-            previous: null,
-            results: [
-              {
-                name: 'Naboo',
-                rotation_period: '26',
-                orbital_period: '312',
-                diameter: '12120',
-                climate: 'temperate',
-                gravity: '1 standard',
-                terrain: 'grassy hills, swamps, forests, mountains',
-                surface_water: '12',
-                population: '4500000000',
-                residents: [
-                  'https://swapi.co/api/people/3/',
-                  'https://swapi.co/api/people/21/',
-                  'https://swapi.co/api/people/36/',
-                  'https://swapi.co/api/people/37/',
-                  'https://swapi.co/api/people/38/',
-                  'https://swapi.co/api/people/39/',
-                  'https://swapi.co/api/people/42/',
-                  'https://swapi.co/api/people/60/',
-                  'https://swapi.co/api/people/61/',
-                  'https://swapi.co/api/people/66/',
-                  'https://swapi.co/api/people/35/'
-                ],
-                films: [
-                  'https://swapi.co/api/films/5/',
-                  'https://swapi.co/api/films/4/',
-                  'https://swapi.co/api/films/6/',
-                  'https://swapi.co/api/films/3/'
-                ],
-                created: '2014-12-10T11:52:31.066000Z',
-                edited: '2014-12-20T20:58:18.430000Z',
-                url: 'https://swapi.co/api/planets/8/'
-              },
-              {
-                name: 'Dantoo/^$ine',
-                rotation_period: '25',
-                orbital_period: '378',
-                diameter: '9830',
-                climate: 'temperate',
-                gravity: '1 standard',
-                terrain: 'oceans, savannas, mountains, grasslands',
-                surface_water: 'unknown',
-                population: '1000',
-                residents: [],
-                films: [],
-                created: '2014-12-10T17:23:29.896000Z',
-                edited: '2014-12-20T20:58:18.461000Z',
-                url: 'https://swapi.co/api/planets/25/'
-              },
-              {
-                name: 'Tatooine',
-                rotation_period: '23',
-                orbital_period: '304',
-                diameter: '10465',
-                climate: 'arid',
-                gravity: '1 standard',
-                terrain: 'desert',
-                surface_water: '1',
-                population: '200000',
-                residents: [
-                  'https://swapi.co/api/people/1/',
-                  'https://swapi.co/api/people/2/',
-                  'https://swapi.co/api/people/4/',
-                  'https://swapi.co/api/people/6/',
-                  'https://swapi.co/api/people/7/',
-                  'https://swapi.co/api/people/8/',
-                  'https://swapi.co/api/people/9/',
-                  'https://swapi.co/api/people/11/',
-                  'https://swapi.co/api/people/43/',
-                  'https://swapi.co/api/people/62/'
-                ],
-                films: [
-                  'https://swapi.co/api/films/5/',
-                  'https://swapi.co/api/films/4/',
-                  'https://swapi.co/api/films/6/',
-                  'https://swapi.co/api/films/3/',
-                  'https://swapi.co/api/films/1/'
-                ],
-                created: '2014-12-09T13:50:49.641000Z',
-                edited: '2014-12-21T20:48:04.175778Z',
-                url: 'https://swapi.co/api/planets/1/'
-              }
-            ]
-          },
-        },
-      };
-      const expected = cloneAndMerge(state, {
-        busy: false,
-        reset: {
-          available: true,
-        },
-        list: {
-          available: true,
-          items: [
-            {
-              name: 'Naboo',
-              split: [
-                {
-                  type: 'normal',
-                  text: 'Nab',
-                },
-                {
-                  type: 'selected',
-                  text: 'oo',
-                },
-              ],
-            },
-            {
-              name: 'Dantoo/^$ine',
-              split: [
-                {
-                  type: 'normal',
-                  text: 'Dant',
-                },
-                {
-                  type: 'selected',
-                  text: 'oo',
-                },
-                {
-                  type: 'normal',
-                  text: '/^$ine',
-                },
-              ],
-            },
-            {
-              name: 'Tatooine',
-              split: [
-                {
-                  type: 'normal',
-                  text: 'Tat',
-                },
-                {
-                  type: 'selected',
-                  text: 'oo',
-                },
-                {
-                  type: 'normal',
-                  text: 'ine',
-                },
-              ],
-            }
+    const responseWithItems = {
+      count: 3,
+      next: null,
+      previous: null,
+      results: [
+        {
+          name: 'Naboo',
+          rotation_period: '26',
+          orbital_period: '312',
+          diameter: '12120',
+          climate: 'temperate',
+          gravity: '1 standard',
+          terrain: 'grassy hills, swamps, forests, mountains',
+          surface_water: '12',
+          population: '4500000000',
+          residents: [
+            'https://swapi.co/api/people/3/',
+            'https://swapi.co/api/people/21/',
+            'https://swapi.co/api/people/36/',
+            'https://swapi.co/api/people/37/',
+            'https://swapi.co/api/people/38/',
+            'https://swapi.co/api/people/39/',
+            'https://swapi.co/api/people/42/',
+            'https://swapi.co/api/people/60/',
+            'https://swapi.co/api/people/61/',
+            'https://swapi.co/api/people/66/',
+            'https://swapi.co/api/people/35/'
           ],
+          films: [
+            'https://swapi.co/api/films/5/',
+            'https://swapi.co/api/films/4/',
+            'https://swapi.co/api/films/6/',
+            'https://swapi.co/api/films/3/'
+          ],
+          created: '2014-12-10T11:52:31.066000Z',
+          edited: '2014-12-20T20:58:18.430000Z',
+          url: 'https://swapi.co/api/planets/8/'
         },
-      });
-      // Act
-      const result = reducer(state, payload);
-      // Assert
-      expect(result).toEqual(expected);
-    });
-
-    it('should handle an empty search response', () => {
-      // Arrange
-      const state = cloneAndMerge({
-        busy: true,
-        reset: {
-          available: true,
+        {
+          name: 'Dantoo/^$ine',
+          rotation_period: '25',
+          orbital_period: '378',
+          diameter: '9830',
+          climate: 'temperate',
+          gravity: '1 standard',
+          terrain: 'oceans, savannas, mountains, grasslands',
+          surface_water: 'unknown',
+          population: '1000',
+          residents: [],
+          films: [],
+          created: '2014-12-10T17:23:29.896000Z',
+          edited: '2014-12-20T20:58:18.461000Z',
+          url: 'https://swapi.co/api/planets/25/'
         },
-        input: {
-          string: 'ootest',
-        },
-      });
-      const payload = {
-        type: 'SEARCH_RESPONSE',
-        payload: {
-          response: {
-            count: 0,
-            next: null,
-            previous: null,
-            results: []
+        {
+          name: 'Tatooine',
+          rotation_period: '23',
+          orbital_period: '304',
+          diameter: '10465',
+          climate: 'arid',
+          gravity: '1 standard',
+          terrain: 'desert',
+          surface_water: '1',
+          population: '200000',
+          residents: [
+            'https://swapi.co/api/people/1/',
+            'https://swapi.co/api/people/2/',
+            'https://swapi.co/api/people/4/',
+            'https://swapi.co/api/people/6/',
+            'https://swapi.co/api/people/7/',
+            'https://swapi.co/api/people/8/',
+            'https://swapi.co/api/people/9/',
+            'https://swapi.co/api/people/11/',
+            'https://swapi.co/api/people/43/',
+            'https://swapi.co/api/people/62/'
+          ],
+          films: [
+            'https://swapi.co/api/films/5/',
+            'https://swapi.co/api/films/4/',
+            'https://swapi.co/api/films/6/',
+            'https://swapi.co/api/films/3/',
+            'https://swapi.co/api/films/1/'
+          ],
+          created: '2014-12-09T13:50:49.641000Z',
+          edited: '2014-12-21T20:48:04.175778Z',
+          url: 'https://swapi.co/api/planets/1/'
+        }
+      ]
+    };
+    const emptyResponse = {
+      count: 0,
+      next: null,
+      previous: null,
+      results: []
+    };
+    const type = 'SEARCH_RESPONSE';
+    const items = [
+      {
+        name: 'Naboo',
+        split: [
+          {
+            type: 'normal',
+            text: 'Nab',
           },
-        },
-      };
-      const expected = cloneAndMerge({
-        input: {
-          string: 'ootest',
-        },
-        reset: {
-          available: true,
-        },
+          {
+            type: 'selected',
+            text: 'oo',
+          },
+        ],
+      },
+      {
+        name: 'Dantoo/^$ine',
+        split: [
+          {
+            type: 'normal',
+            text: 'Dant',
+          },
+          {
+            type: 'selected',
+            text: 'oo',
+          },
+          {
+            type: 'normal',
+            text: '/^$ine',
+          },
+        ],
+      },
+      {
+        name: 'Tatooine',
+        split: [
+          {
+            type: 'normal',
+            text: 'Tat',
+          },
+          {
+            type: 'selected',
+            text: 'oo',
+          },
+          {
+            type: 'normal',
+            text: 'ine',
+          },
+        ],
+      }
+    ];
+    const testItems = [
+      {
+        it: 'should handle a productive search response from scratch',
+        payload:  { type, payload: { response: responseWithItems, }, },
+        state:    { busy: true,  reset: { available: true,  }, input: { string: 'oo',  }, list: { available: false, items: [], } },
+        expected: { busy: false, reset: { available: true,  }, input: { string: 'oo',  }, list: { available: true,  items,     } },
+      },
+      {
+        it: 'should handle an empty search response from scratch',
+        payload:  { type, payload: { response: emptyResponse, }, },
+        state:    { busy: true,  reset: { available: true,  }, input: { string: 'oo',  }, list: { available: false, items: [], } },
+        expected: { busy: false, reset: { available: true,  }, input: { string: 'oo',  }, list: { available: false, items: [], } },
+      },
+    ];
+    testItems.forEach(item => {
+      it(item.it, () => {
+        // Arrange
+        // Act
+        const result = reducer(item.state, item.payload);
+        // Assert
+        expect(result).toEqual(item.expected);
       });
-      // Act
-      const result = reducer(state, payload);
-      // Assert
-      expect(result).toEqual(expected);
     });
   });
 
