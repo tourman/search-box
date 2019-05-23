@@ -303,95 +303,47 @@ describe('search reducer', () => {
   });
 
   describe('reset', () => {
-    it('should handle search reseting', () => {
-      // Arrange
-      const items = [
-        {
-          name: 'Some test',
-          split: [
-            {
-              type: 'normal',
-              text: 'Some ',
-            },
-            {
-              type: 'selected',
-              text: 'test',
-            },
-          ],
-        }
-      ];
-      const state = cloneAndMerge({
-        busy: true,
-        reset: {
-          available: true,
-        },
-        input: {
-          string: 'Some test',
-        },
-        list: {
-          available: true,
-          items,
-        },
+    const items = [
+      {
+        name: 'Some test',
+        split: [
+          {
+            type: 'normal',
+            text: 'Some ',
+          },
+          {
+            type: 'selected',
+            text: 'test',
+          },
+        ],
+      }
+    ];
+    const testItems = [
+      {
+        it: 'should handle search reseting',
+        stateExtension:    { busy: true,  reset: { available: true,  }, input: { string: 'test', }, list: { available: true,  items, } },
+        expectedExtension: { busy: false, reset: { available: false, }, input: { string: '',     }, list: { available: false, items, } },
+      },
+      {
+        it: 'should handle search string clearing',
+        stateExtension:    { busy: false, reset: { available: true,  }, input: { string: 'test', }, list: { available: true,  items, } },
+        expectedExtension: { busy: false, reset: { available: false, }, input: { string: '',     }, list: { available: false, items, } },
+      },
+    ];
+    const payload = {
+      type: 'SEARCH_RESET',
+      payload: {},
+    };
+    testItems.forEach(item => {
+      it(item.it, () => {
+        // Arrange
+        const state = cloneAndMerge(item.stateExtension);
+        const expected = cloneAndMerge(item.expectedExtension);
+        // Act
+        const result = reducer(state, payload);
+        // Assert
+        expect(result).toEqual(expected);
       });
-      const payload = {
-        type: 'SEARCH_RESET',
-        payload: {},
-      };
-      const expected = cloneAndMerge({
-        list: {
-          available: false,
-          items,
-        },
-      });
-      // Act
-      const result = reducer(state, payload);
-      // Assert
-      expect(result).toEqual(expected);
-    });
-
-    it('should handle search string clearing', () => {
-      // Arrange
-      const items = [
-        {
-          name: 'Some test',
-          split: [
-            {
-              type: 'normal',
-              text: 'Some ',
-            },
-            {
-              type: 'selected',
-              text: 'test',
-            },
-          ],
-        }
-      ];
-      const state = cloneAndMerge({
-        reset: {
-          available: true,
-        },
-        input: {
-          string: 'Some test',
-        },
-        list: {
-          available: true,
-          items,
-        }
-      });
-      const payload = {
-        type: 'SEARCH_RESET',
-        payload: {},
-      };
-      const expected = cloneAndMerge({
-        list: {
-          available: false,
-          items,
-        },
-      });
-      // Act
-      const result = reducer(state, payload);
-      // Assert
-      expect(result).toEqual(expected);
     });
   });
 });
