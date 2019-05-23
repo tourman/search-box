@@ -44,9 +44,16 @@ export default function search(prevState = initialState, action) {
   const state = produce(prevState, draft => {
     switch(action.type) {
       case SEARCH_REQUEST: {
-        draft.busy = true;
-        draft.reset.available = true;
-        draft.input.string = action.payload.request;
+        if (action.payload.request) {
+          draft.busy = true;
+          draft.reset.available = true;
+          draft.input.string = action.payload.request;
+        } else {
+          draft.reset.available = false;
+          draft.input.string = '';
+          draft.list.available = false;
+          draft.list.items.length && (draft.list.items = []);
+        }
         break;
       }
       case SEARCH_RESPONSE: {

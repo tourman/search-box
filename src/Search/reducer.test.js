@@ -46,6 +46,47 @@ describe('search reducer', () => {
     expect(result).toEqual(expected);
   });
 
+  it('should handle an empty request', () => {
+    // Arrange
+    const state = cloneAndMerge({
+      input: {
+        string: 'test',
+      },
+      reset: {
+        available: true,
+      },
+      list: {
+        available: true,
+        items: [
+          {
+            name: 'Some test',
+            split: [
+              {
+                type: 'normal',
+                text: 'Some ',
+              },
+              {
+                type: 'selected',
+                text: 'test',
+              },
+            ],
+          }
+        ],
+      }
+    });
+    const payload = {
+      type: 'SEARCH_REQUEST',
+      payload: {
+        request: '',
+      },
+    };
+    const expected = initialState;
+    // Act
+    const result = reducer(state, payload);
+    // Assert
+    expect(result).toEqual(expected);
+  });
+
   it('should handle a productive search response', () => {
     // Arrange
     const state = cloneAndMerge({
