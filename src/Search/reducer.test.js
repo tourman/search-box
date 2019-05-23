@@ -23,12 +23,15 @@ describe('search reducer', () => {
   });
 
   it('should handle request by search string', () => {
-    expect(reducer(initialState, {
+    // Arrange
+    const state = initialState;
+    const payload = {
       type: 'SEARCH_REQUEST',
       payload: {
         request: 'oo',
       },
-    })).toEqual(cloneAndMerge({
+    };
+    const expected = cloneAndMerge({
       busy: true,
       reset: {
         available: true,
@@ -36,7 +39,11 @@ describe('search reducer', () => {
       input: {
         string: 'oo',
       },
-    }));
+    });
+    // Act
+    const result = reducer(state, payload);
+    // Assert
+    expect(result).toEqual(expected);
   });
 
   it('should handle search response', () => {
