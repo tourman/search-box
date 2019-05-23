@@ -48,6 +48,21 @@ describe('search reducer', () => {
 
   it('should handle an empty request', () => {
     // Arrange
+    const items = [
+      {
+        name: 'Some test',
+        split: [
+          {
+            type: 'normal',
+            text: 'Some ',
+          },
+          {
+            type: 'selected',
+            text: 'test',
+          },
+        ],
+      }
+    ];
     const state = cloneAndMerge({
       input: {
         string: 'test',
@@ -57,21 +72,7 @@ describe('search reducer', () => {
       },
       list: {
         available: true,
-        items: [
-          {
-            name: 'Some test',
-            split: [
-              {
-                type: 'normal',
-                text: 'Some ',
-              },
-              {
-                type: 'selected',
-                text: 'test',
-              },
-            ],
-          }
-        ],
+        items,
       }
     });
     const payload = {
@@ -80,7 +81,12 @@ describe('search reducer', () => {
         request: '',
       },
     };
-    const expected = initialState;
+    const expected = cloneAndMerge({
+      list: {
+        available: false,
+        items,
+      }
+    });
     // Act
     const result = reducer(state, payload);
     // Assert
@@ -278,14 +284,12 @@ describe('search reducer', () => {
         },
       },
     };
-    const expected = cloneAndMerge(state, {
-      busy: false,
+    const expected = cloneAndMerge({
+      input: {
+        string: 'ootest',
+      },
       reset: {
         available: true,
-      },
-      list: {
-        available: false,
-        items: [],
       },
     });
     // Act
@@ -296,30 +300,42 @@ describe('search reducer', () => {
 
   it('should handle search reseting', () => {
     // Arrange
+    const items = [
+      {
+        name: 'Some test',
+        split: [
+          {
+            type: 'normal',
+            text: 'Some ',
+          },
+          {
+            type: 'selected',
+            text: 'test',
+          },
+        ],
+      }
+    ];
     const state = cloneAndMerge({
       busy: true,
       reset: {
         available: true,
       },
       input: {
-        string: 'ootest',
+        string: 'Some test',
+      },
+      list: {
+        available: true,
+        items,
       },
     });
     const payload = {
       type: 'SEARCH_RESET',
       payload: {},
     };
-    const expected = cloneAndMerge(state, {
-      busy: false,
-      reset: {
-        available: false,
-      },
+    const expected = cloneAndMerge({
       list: {
         available: false,
-        items: [],
-      },
-      input: {
-        string: '',
+        items,
       },
     });
     // Act
@@ -330,24 +346,41 @@ describe('search reducer', () => {
 
   it('should handle search string clearing', () => {
     // Arrange
+    const items = [
+      {
+        name: 'Some test',
+        split: [
+          {
+            type: 'normal',
+            text: 'Some ',
+          },
+          {
+            type: 'selected',
+            text: 'test',
+          },
+        ],
+      }
+    ];
     const state = cloneAndMerge({
       reset: {
         available: true,
       },
       input: {
-        string: 'ootest',
+        string: 'Some test',
       },
+      list: {
+        available: true,
+        items,
+      }
     });
     const payload = {
       type: 'SEARCH_RESET',
       payload: {},
     };
-    const expected = cloneAndMerge(state, {
-      reset: {
+    const expected = cloneAndMerge({
+      list: {
         available: false,
-      },
-      input: {
-        string: '',
+        items,
       },
     });
     // Act

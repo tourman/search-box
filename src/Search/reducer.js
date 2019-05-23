@@ -52,7 +52,6 @@ export default function search(prevState = initialState, action) {
           draft.reset.available = false;
           draft.input.string = '';
           draft.list.available = false;
-          draft.list.items.length && (draft.list.items = []);
         }
         break;
       }
@@ -70,7 +69,6 @@ export default function search(prevState = initialState, action) {
         draft.busy = false;
         draft.reset.available = false;
         draft.list.available = false;
-        draft.list.items.length && (draft.list.items = []);
         draft.input.string = '';
         break;
       }
