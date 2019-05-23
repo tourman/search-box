@@ -63,7 +63,7 @@ export default function search(prevState = initialState, action) {
         draft.busy = false;
         draft.reset.available = false;
         draft.list.available = false;
-        draft.list.items = [];
+        draft.list.items.length && (draft.list.items = []);
         draft.input.string = '';
         break;
       }

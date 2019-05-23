@@ -286,4 +286,32 @@ describe('search reducer', () => {
     // Assert
     expect(result).toEqual(expected);
   });
+
+  it('should handle search string clearing', () => {
+    // Arrange
+    const state = cloneAndMerge({
+      reset: {
+        available: true,
+      },
+      input: {
+        string: 'ootest',
+      },
+    });
+    const payload = {
+      type: 'SEARCH_RESET',
+      payload: {},
+    };
+    const expected = cloneAndMerge(state, {
+      reset: {
+        available: false,
+      },
+      input: {
+        string: '',
+      },
+    });
+    // Act
+    const result = reducer(state, payload);
+    // Assert
+    expect(result).toEqual(expected);
+  });
 });
