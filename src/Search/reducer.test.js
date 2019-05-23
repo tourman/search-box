@@ -46,7 +46,7 @@ describe('search reducer', () => {
     expect(result).toEqual(expected);
   });
 
-  it('should handle search response', () => {
+  it('should handle a productive search response', () => {
     // Arrange
     const state = cloneAndMerge({
       busy: true,
@@ -207,6 +207,44 @@ describe('search reducer', () => {
             ],
           }
         ],
+      },
+    });
+    // Act
+    const result = reducer(state, payload);
+    // Assert
+    expect(result).toEqual(expected);
+  });
+
+  it('should handle an empty search response', () => {
+    // Arrange
+    const state = cloneAndMerge({
+      busy: true,
+      reset: {
+        available: true,
+      },
+      input: {
+        string: 'ootest',
+      },
+    });
+    const payload = {
+      type: 'SEARCH_RESPONSE',
+      payload: {
+        response: {
+          count: 0,
+          next: null,
+          previous: null,
+          results: []
+        },
+      },
+    };
+    const expected = cloneAndMerge(state, {
+      busy: false,
+      reset: {
+        available: true,
+      },
+      list: {
+        available: false,
+        items: [],
       },
     });
     // Act

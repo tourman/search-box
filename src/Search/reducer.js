@@ -50,8 +50,9 @@ export default function search(prevState = initialState, action) {
       }
       case SEARCH_RESPONSE: {
         draft.busy = false;
-        draft.list.available = true;
-        draft.list.items = action.payload.response.results.map(({ name }) => ({
+        const results = action.payload.response.results || [];
+        draft.list.available = !!results.length;
+        draft.list.items = results.map(({ name }) => ({
           name,
           split: splitName(name, draft.input.string),
         }));
