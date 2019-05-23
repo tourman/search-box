@@ -254,6 +254,18 @@ describe('search reducer', () => {
         state:    { busy: true,  reset: { available: true,  }, input: { string: 'oo',  }, list: { available: false, items: [], } },
         expected: { busy: false, reset: { available: true,  }, input: { string: 'oo',  }, list: { available: false, items: [], } },
       },
+      {
+        it: 'should handle a productive search response from previous search',
+        payload:  { type, payload: { response: responseWithItems, }, },
+        state:    { busy: true,  reset: { available: true,  }, input: { string: 'oo',  }, list: { available: true,  items: items.slice(1), } },
+        expected: { busy: false, reset: { available: true,  }, input: { string: 'oo',  }, list: { available: true,  items, } },
+      },
+      {
+        it: 'should handle an empty search response from previous search',
+        payload:  { type, payload: { response: emptyResponse, }, },
+        state:    { busy: true,  reset: { available: true,  }, input: { string: 'oo',  }, list: { available: true,  items, } },
+        expected: { busy: false, reset: { available: true,  }, input: { string: 'oo',  }, list: { available: false, items: [], } },
+      },
     ];
     testItems.forEach(item => {
       it(item.it, () => {
