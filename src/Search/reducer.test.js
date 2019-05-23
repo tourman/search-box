@@ -321,18 +321,18 @@ describe('search reducer', () => {
     const testItems = [
       {
         it: 'should handle search reseting',
-        stateExtension:    { busy: true,  reset: { available: true,  }, input: { string: 'test', }, list: { available: true,  items, } },
-        expectedExtension: { busy: false, reset: { available: false, }, input: { string: '',     }, list: { available: false, items, } },
+        state:    { busy: true,  reset: { available: true,  }, input: { string: 'test', }, list: { available: true,  items, } },
+        expected: { busy: false, reset: { available: false, }, input: { string: '',     }, list: { available: false, items, } },
       },
       {
         it: 'should handle search string clearing',
-        stateExtension:    { busy: false, reset: { available: true,  }, input: { string: 'test', }, list: { available: true,  items, } },
-        expectedExtension: { busy: false, reset: { available: false, }, input: { string: '',     }, list: { available: false, items, } },
+        state:    { busy: false, reset: { available: true,  }, input: { string: 'test', }, list: { available: true,  items, } },
+        expected: { busy: false, reset: { available: false, }, input: { string: '',     }, list: { available: false, items, } },
       },
       {
         it: 'should ignore search string clearing',
-        stateExtension:    { busy: false, reset: { available: false, }, input: { string: '',     }, list: { available: false, items, } },
-        expectedExtension: { busy: false, reset: { available: false, }, input: { string: '',     }, list: { available: false, items, } },
+        state:    { busy: false, reset: { available: false, }, input: { string: '',     }, list: { available: false, items, } },
+        expected: { busy: false, reset: { available: false, }, input: { string: '',     }, list: { available: false, items, } },
       },
     ];
     const payload = {
@@ -342,12 +342,10 @@ describe('search reducer', () => {
     testItems.forEach(item => {
       it(item.it, () => {
         // Arrange
-        const state = cloneAndMerge(item.stateExtension);
-        const expected = cloneAndMerge(item.expectedExtension);
         // Act
-        const result = reducer(state, payload);
+        const result = reducer(item.state, payload);
         // Assert
-        expect(result).toEqual(expected);
+        expect(result).toEqual(item.expected);
       });
     });
   });
