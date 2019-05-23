@@ -329,6 +329,11 @@ describe('search reducer', () => {
         stateExtension:    { busy: false, reset: { available: true,  }, input: { string: 'test', }, list: { available: true,  items, } },
         expectedExtension: { busy: false, reset: { available: false, }, input: { string: '',     }, list: { available: false, items, } },
       },
+      {
+        it: 'should ignore search string clearing',
+        stateExtension:    { busy: false, reset: { available: false, }, input: { string: '',     }, list: { available: false, items, } },
+        expectedExtension: { busy: false, reset: { available: false, }, input: { string: '',     }, list: { available: false, items, } },
+      },
     ];
     const payload = {
       type: 'SEARCH_RESET',
