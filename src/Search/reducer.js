@@ -2,6 +2,7 @@ import produce from 'immer';
 
 const SEARCH_REQUEST = 'SEARCH_REQUEST';
 const SEARCH_RESPONSE = 'SEARCH_RESPONSE';
+const SEARCH_RESET = 'SEARCH_RESET';
 
 const initialState = {
   busy: false,
@@ -56,6 +57,14 @@ export default function search(prevState = initialState, action) {
           name,
           split: splitName(name, draft.input.string),
         }));
+        break;
+      }
+      case SEARCH_RESET: {
+        draft.busy = false;
+        draft.reset.available = false;
+        draft.list.available = false;
+        draft.list.items = [];
+        draft.input.string = '';
         break;
       }
       default: {
