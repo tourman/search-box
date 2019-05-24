@@ -1,6 +1,8 @@
 import reducer from './reducer';
 import { merge } from '../helpers';
 
+const cloneAndMerge = (...extensions) => merge({}, initialState, ...extensions);
+
 const initialState = {
   busy: false,
   reset: {
@@ -15,7 +17,72 @@ const initialState = {
   },
 };
 
-const cloneAndMerge = (...extensions) => merge({}, initialState, ...extensions);
+const stateItems = {
+  'oo': [
+    {
+      name: 'Naboo',
+      split: [
+        {
+          type: 'normal',
+          text: 'Nab',
+        },
+        {
+          type: 'selected',
+          text: 'oo',
+        },
+      ],
+    },
+    {
+      name: 'Dantoo/^$ine',
+      split: [
+        {
+          type: 'normal',
+          text: 'Dant',
+        },
+        {
+          type: 'selected',
+          text: 'oo',
+        },
+        {
+          type: 'normal',
+          text: '/^$ine',
+        },
+      ],
+    },
+    {
+      name: 'Tatooine',
+      split: [
+        {
+          type: 'normal',
+          text: 'Tat',
+        },
+        {
+          type: 'selected',
+          text: 'oo',
+        },
+        {
+          type: 'normal',
+          text: 'ine',
+        },
+      ],
+    }
+  ],
+  'Some test': [
+    {
+      name: 'Some test',
+      split: [
+        {
+          type: 'normal',
+          text: 'Some ',
+        },
+        {
+          type: 'selected',
+          text: 'test',
+        },
+      ],
+    }
+  ],
+};
 
 describe('search reducer', () => {
   it('should return the initial state', () => {
@@ -23,55 +90,7 @@ describe('search reducer', () => {
   });
 
   describe('request', () => {
-    const items = [
-      {
-        name: 'Naboo',
-        split: [
-          {
-            type: 'normal',
-            text: 'Nab',
-          },
-          {
-            type: 'selected',
-            text: 'oo',
-          },
-        ],
-      },
-      {
-        name: 'Dantoo/^$ine',
-        split: [
-          {
-            type: 'normal',
-            text: 'Dant',
-          },
-          {
-            type: 'selected',
-            text: 'oo',
-          },
-          {
-            type: 'normal',
-            text: '/^$ine',
-          },
-        ],
-      },
-      {
-        name: 'Tatooine',
-        split: [
-          {
-            type: 'normal',
-            text: 'Tat',
-          },
-          {
-            type: 'selected',
-            text: 'oo',
-          },
-          {
-            type: 'normal',
-            text: 'ine',
-          },
-        ],
-      }
-    ];
+    const items = stateItems['oo'];
     const type = 'SEARCH_REQUEST';
     const testItems = [
       {
@@ -219,55 +238,7 @@ describe('search reducer', () => {
       results: []
     };
     const type = 'SEARCH_RESPONSE';
-    const items = [
-      {
-        name: 'Naboo',
-        split: [
-          {
-            type: 'normal',
-            text: 'Nab',
-          },
-          {
-            type: 'selected',
-            text: 'oo',
-          },
-        ],
-      },
-      {
-        name: 'Dantoo/^$ine',
-        split: [
-          {
-            type: 'normal',
-            text: 'Dant',
-          },
-          {
-            type: 'selected',
-            text: 'oo',
-          },
-          {
-            type: 'normal',
-            text: '/^$ine',
-          },
-        ],
-      },
-      {
-        name: 'Tatooine',
-        split: [
-          {
-            type: 'normal',
-            text: 'Tat',
-          },
-          {
-            type: 'selected',
-            text: 'oo',
-          },
-          {
-            type: 'normal',
-            text: 'ine',
-          },
-        ],
-      }
-    ];
+    const items = stateItems['oo'];
     const testItems = [
       {
         it: 'should handle a productive search response from scratch',
@@ -306,21 +277,7 @@ describe('search reducer', () => {
   });
 
   describe('reset', () => {
-    const items = [
-      {
-        name: 'Some test',
-        split: [
-          {
-            type: 'normal',
-            text: 'Some ',
-          },
-          {
-            type: 'selected',
-            text: 'test',
-          },
-        ],
-      }
-    ];
+    const items = stateItems['Some test'];
     const testItems = [
       {
         it: 'should handle search reseting',
