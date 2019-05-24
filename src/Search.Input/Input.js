@@ -8,6 +8,7 @@ export default function Input(props) {
         const request = e.target.value;
         props.actions.onRequest({ request });
       }}
+      onClick={e => props.actions.onPreventClose(e)}
     />
   );
 };

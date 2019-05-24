@@ -15,7 +15,7 @@ export default function PopupList(props) {
   return (
     <ul
       style={{ visibility }}
-      onClick={() => props.actions.onPreventClose()}
+      onClick={e => props.actions.onPreventClose(e)}
     >
       {props.items.map(item => {
         const displayName = item.split.map((token, index) => {

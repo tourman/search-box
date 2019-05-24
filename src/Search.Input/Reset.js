@@ -11,6 +11,7 @@ export default function Reset(props) {
     <button
       style={{ visibility }}
       onClick={e => {
+        props.actions.onPreventClose(e);
         props.actions.onReset();
       }}
     >

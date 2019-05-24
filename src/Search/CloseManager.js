@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useEffect } from 'react';
 
 function extendChildrenToPreventClose({ props, onPreventClose }) {
   return React.Children.map(props.children, child => React.cloneElement(
@@ -14,7 +14,6 @@ function extendChildrenToPreventClose({ props, onPreventClose }) {
 
 export default function CloseManager(props) {
   // Hooks
-  const preventCloseRef = useRef(false);
   useEffect(() => {
     document.addEventListener('click', onClick);
     document.addEventListener('keyup', onEscape);
@@ -25,8 +24,8 @@ export default function CloseManager(props) {
   });
 
   // Functions
-  function onPreventClose() {
-    preventCloseRef.current = true;
+  function onPreventClose(e) {
+    e.nativeEvent.stopImmediatePropagation();
   }
   function onEscape(e) {
     const esc = ['Esc', 'Escape'].indexOf(e.key);
@@ -34,8 +33,7 @@ export default function CloseManager(props) {
     props.actions.onClose();
   }
   function onClick() {
-    preventCloseRef.current || props.actions.onClose();
-    preventCloseRef.current = false;
+    props.actions.onClose();
   }
 
   // Arrange
