@@ -309,4 +309,33 @@ describe('search reducer', () => {
       });
     });
   });
+
+  describe('close', () => {
+    const items = stateItems['Some test'];
+    const testItems = [
+      {
+        it: 'should close search list while searching',
+        state:    { busy: true,  reset: { available: true,  }, input: { string: 'oo',   }, list: { available: true,  items, } },
+        expected: { busy: true,  reset: { available: true,  }, input: { string: 'oo',   }, list: { available: false, items, } },
+      },
+      {
+        it: 'should close search list while idle',
+        state:    { busy: false, reset: { available: true,  }, input: { string: 'test', }, list: { available: true,  items, } },
+        expected: { busy: false, reset: { available: true,  }, input: { string: 'test', }, list: { available: false, items, } },
+      },
+    ];
+    const payload = {
+      type: 'SEARCH_CLOSE',
+      payload: {},
+    };
+    testItems.forEach(item => {
+      it(item.it, () => {
+        // Arrange
+        // Act
+        const result = reducer(item.state, payload);
+        // Assert
+        expect(result).toEqual(item.expected);
+      });
+    });
+  });
 });

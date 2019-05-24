@@ -3,6 +3,7 @@ import produce from 'immer';
 const SEARCH_REQUEST = 'SEARCH_REQUEST';
 const SEARCH_RESPONSE = 'SEARCH_RESPONSE';
 const SEARCH_RESET = 'SEARCH_RESET';
+const SEARCH_CLOSE = 'SEARCH_CLOSE';
 
 const initialState = {
   busy: false,
@@ -72,6 +73,10 @@ export default function search(prevState = initialState, action) {
       }
       case SEARCH_RESET: {
         reset(draft);
+        break;
+      }
+      case SEARCH_CLOSE: {
+        draft.list.available = false;
         break;
       }
       default: {
