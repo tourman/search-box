@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React from 'react';
 
 const visibilityMap = new Map()
   .set(true,  'visible')
@@ -11,31 +11,11 @@ const wrapperMap = new Map()
 ;
 
 export default function PopupList(props) {
-  const allowCloseRef = useRef(true);
-  function onEscape(e) {
-    const esc = ['Esc', 'Escape'].indexOf(e.key);
-    if (!~esc) return;
-    props.actions.onClose();
-  }
-  function onClick() {
-    allowCloseRef.current && props.actions.onClose();
-    allowCloseRef.current = true;
-  }
-  useEffect(() => {
-    document.addEventListener('click', onClick);
-    document.addEventListener('keyup', onEscape);
-    return () => {
-      document.removeEventListener('click', onClick);
-      document.removeEventListener('keyup', onEscape);
-    };
-  });
   const visibility = visibilityMap.get(props.available);
   return (
     <ul
       style={{ visibility }}
-      onClick={() => {
-        allowCloseRef.current = false;
-      }}
+      onClick={() => props.actions.onPreventClose()}
     >
       {props.items.map(item => {
         const displayName = item.split.map((token, index) => {
