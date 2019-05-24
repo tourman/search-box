@@ -1,5 +1,17 @@
 import React from 'react';
 
-export default function Reset() {
-  return (<button>Reset</button>);
+const visibilityMap = new Map()
+  .set(true,  'visible')
+  .set(false, 'hidden')
+;
+
+export default function Reset(props) {
+  const visibility = visibilityMap.get(props.available);
+  return (
+    <button
+      style={{ visibility }}
+    >
+      Reset
+    </button>
+  );
 };

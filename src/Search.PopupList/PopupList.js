@@ -1,11 +1,38 @@
 import React from 'react';
 
-export default function PopupList() {
+const visibilityMap = new Map()
+  .set(true,  'visible')
+  .set(false, 'hidden')
+;
+
+const wrapperMap = {
+  normal:   React.Fragment,
+  selected: 'b',
+};
+
+export default function PopupList(props) {
+  const visibility = visibilityMap.get(props.available);
   return (
-    <ul>
-      <li><a href="/">Item 1</a></li>
-      <li><a href="/">Item 2</a></li>
-      <li><a href="/">Item 3</a></li>
+    <ul
+      style={{ visibility }}
+    >
+      {props.items.map(item => {
+        const displayName = item.split.map(token => {
+          const Wrapper = wrapperMap.get(token.type);
+          return (
+            <Wrapper>
+              {token.text}
+            </Wrapper>
+          );
+        });
+        return (
+          <li
+            key={item.name}
+          >
+            <a href={item.name}>{displayName}</a>
+          </li>
+        );
+      })}
     </ul>  
   );
 };

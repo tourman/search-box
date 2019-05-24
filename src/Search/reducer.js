@@ -96,3 +96,11 @@ export default function search(prevState = initialState, action) {
   });
   return state;
 };
+
+export {
+  SEARCH_REQUEST,
+  SEARCH_RESPONSE,
+  SEARCH_RESET,
+  SEARCH_CLOSE,
+  SEARCH_SELECT,
+};

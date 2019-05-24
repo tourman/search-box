@@ -1,5 +1,7 @@
 import React from 'react';
 
-export default function Input() {
-  return (<input />);
+export default function Input(props) {
+  return (
+    <input value={props.string} />
+  );
 };
