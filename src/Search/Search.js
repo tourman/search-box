@@ -9,12 +9,12 @@ import { SearchInput } from '../Search.Input';
 import { PopupList } from '../Search.PopupList';
 
 function Search(props) {
-  const { list } = props;
+  const { list, actions } = props;
   return (
     <SearchWrapper>
-      <SearchInput { ...props } />
+      <SearchInput { ...props } actions={actions} />
       <BusyIndicator { ...props } />
-      <PopupList { ...list } />
+      <PopupList { ...list } actions={actions} />
     </SearchWrapper>
   );
 }
@@ -24,7 +24,9 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return mapValues(actions, action => payload => dispatch(action(payload)));
+  return {
+    actions: mapValues(actions, action => payload => dispatch(action(payload))),
+  };
 }
 
 export default connect(

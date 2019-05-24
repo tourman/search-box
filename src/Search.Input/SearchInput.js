@@ -3,11 +3,11 @@ import Input from './Input';
 import Reset from './Reset';
 
 export default function SearchInput(props) {
-  const { reset, input } = props;
+  const { reset, input, actions } = props;
   return (
     <>
-      <Input { ...input } />
-      <Reset { ...reset } />
+      <Input { ...input } actions={actions} />
+      <Reset { ...reset } actions={actions} />
     </>
   );
 };

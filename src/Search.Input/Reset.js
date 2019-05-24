@@ -10,6 +10,9 @@ export default function Reset(props) {
   return (
     <button
       style={{ visibility }}
+      onClick={e => {
+        props.actions.onReset();
+      }}
     >
       Reset
     </button>
