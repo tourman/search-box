@@ -22,76 +22,103 @@ describe('search reducer', () => {
     expect(reducer(undefined, {})).toEqual(initialState);
   });
 
-  describe('search string changes', () => {
-    it('should handle request by search string', () => {
-      // Arrange
-      const state = initialState;
-      const payload = {
-        type: 'SEARCH_REQUEST',
-        payload: {
-          request: 'oo',
-        },
-      };
-      const expected = cloneAndMerge({
-        busy: true,
-        reset: {
-          available: true,
-        },
-        input: {
-          string: 'oo',
-        },
+  describe('request', () => {
+    const items = [
+      {
+        name: 'Naboo',
+        split: [
+          {
+            type: 'normal',
+            text: 'Nab',
+          },
+          {
+            type: 'selected',
+            text: 'oo',
+          },
+        ],
+      },
+      {
+        name: 'Dantoo/^$ine',
+        split: [
+          {
+            type: 'normal',
+            text: 'Dant',
+          },
+          {
+            type: 'selected',
+            text: 'oo',
+          },
+          {
+            type: 'normal',
+            text: '/^$ine',
+          },
+        ],
+      },
+      {
+        name: 'Tatooine',
+        split: [
+          {
+            type: 'normal',
+            text: 'Tat',
+          },
+          {
+            type: 'selected',
+            text: 'oo',
+          },
+          {
+            type: 'normal',
+            text: 'ine',
+          },
+        ],
+      }
+    ];
+    const type = 'SEARCH_REQUEST';
+    const testItems = [
+      {
+        it: 'should handle request by search string while idle',
+        payload:  { type, payload: { request: 'oo', }, },
+        state:    { busy: false, reset: { available: false, }, input: { string: '',    }, list: { available: false, items: [], } },
+        expected: { busy: true,  reset: { available: true,  }, input: { string: 'oo',  }, list: { available: false, items: [], } },
+      },
+      {
+        it: 'should handle request by search string while idle',
+        payload:  { type, payload: { request: 'o', }, },
+        state:    { busy: false, reset: { available: true,  }, input: { string: 'oo',  }, list: { available: true,  items,     } },
+        expected: { busy: true,  reset: { available: true,  }, input: { string: 'o',   }, list: { available: true,  items,     } },
+      },
+      {
+        it: 'should handle an empty request by search string while idle',
+        payload:  { type, payload: { request: '', }, },
+        state:    { busy: false, reset: { available: false, }, input: { string: '',    }, list: { available: false, items: [], } },
+        expected: { busy: false, reset: { available: false, }, input: { string: '',    }, list: { available: false, items: [], } },
+      },
+      {
+        it: 'should handle reset by an empty string while idle',
+        payload:  { type, payload: { request: '', }, },
+        state:    { busy: false, reset: { available: true,  }, input: { string: 'oo',  }, list: { available: true,  items,     } },
+        expected: { busy: false, reset: { available: false, }, input: { string: '',    }, list: { available: false, items,     } },
+      },
+      {
+        it: 'should handle request by search string while searching',
+        payload:  { type, payload: { request: 'oo', }, },
+        state:    { busy: true,  reset: { available: true,  }, input: { string: 'o',   }, list: { available: false, items: [], } },
+        expected: { busy: true,  reset: { available: true,  }, input: { string: 'oo',  }, list: { available: false, items: [], } },
+      },
+      {
+        it: 'should handle reset by an empty string while searching',
+        payload:  { type, payload: { request: '', }, },
+        state:    { busy: true,  reset: { available: true,  }, input: { string: 'o' ,  }, list: { available: true,  items,     } },
+        expected: { busy: false, reset: { available: false, }, input: { string: '',    }, list: { available: false, items,     } },
+      },
+    ];
+    testItems.forEach(item => {
+      it(item.it, () => {
+        // Arrange
+        // Act
+        const result = reducer(item.state, item.payload);
+        // Assert
+        expect(result).toEqual(item.expected);
       });
-      // Act
-      const result = reducer(state, payload);
-      // Assert
-      expect(result).toEqual(expected);
-    });
-
-    it('should handle an empty request', () => {
-      // Arrange
-      const items = [
-        {
-          name: 'Some test',
-          split: [
-            {
-              type: 'normal',
-              text: 'Some ',
-            },
-            {
-              type: 'selected',
-              text: 'test',
-            },
-          ],
-        }
-      ];
-      const state = cloneAndMerge({
-        input: {
-          string: 'test',
-        },
-        reset: {
-          available: true,
-        },
-        list: {
-          available: true,
-          items,
-        }
-      });
-      const payload = {
-        type: 'SEARCH_REQUEST',
-        payload: {
-          request: '',
-        },
-      };
-      const expected = cloneAndMerge({
-        list: {
-          available: false,
-          items,
-        }
-      });
-      // Act
-      const result = reducer(state, payload);
-      // Assert
-      expect(result).toEqual(expected);
     });
   });
 

@@ -40,6 +40,13 @@ function splitName(name, request) {
   return split;
 }
 
+function reset(draft) {
+  draft.busy = false;
+  draft.reset.available = false;
+  draft.input.string = '';
+  draft.list.available = false;
+}
+
 export default function search(prevState = initialState, action) {
   const state = produce(prevState, draft => {
     switch(action.type) {
@@ -49,9 +56,7 @@ export default function search(prevState = initialState, action) {
           draft.reset.available = true;
           draft.input.string = action.payload.request;
         } else {
-          draft.reset.available = false;
-          draft.input.string = '';
-          draft.list.available = false;
+          reset(draft);
         }
         break;
       }
@@ -66,10 +71,7 @@ export default function search(prevState = initialState, action) {
         break;
       }
       case SEARCH_RESET: {
-        draft.busy = false;
-        draft.reset.available = false;
-        draft.list.available = false;
-        draft.input.string = '';
+        reset(draft);
         break;
       }
       default: {
