@@ -338,4 +338,45 @@ describe('search reducer', () => {
       });
     });
   });
+
+  describe('select', () => {
+    const items = stateItems['oo'];
+    const testItems = [
+      {
+        it: 'should select an item while idle',
+        payload:  { name: 'Naboo', },
+        state:    { busy: false, reset: { available: true,  }, input: { string: 'oo',    }, list: { available: true,  items,                    } },
+        expected: { busy: false, reset: { available: true,  }, input: { string: 'Naboo', }, list: { available: false, items: items.slice(0, 1), } },
+      },
+      {
+        it: 'should select an item while searching',
+        payload:  { name: 'Naboo', },
+        state:    { busy: true,  reset: { available: true,  }, input: { string: 'too',   }, list: { available: true,  items,                    } },
+        expected: { busy: false, reset: { available: true,  }, input: { string: 'Naboo', }, list: { available: false, items: items.slice(0, 1), } },
+      },
+      {
+        it: 'should select an absent item while idle',
+        payload:  { name: 'Absent planet', },
+        state:    { busy: false, reset: { available: true,  }, input: { string: 'oo',    }, list: { available: true,  items,                    } },
+        expected: { busy: false, reset: { available: true,  }, input: { string: 'oo',    }, list: { available: true,  items,                    } },
+      },
+      {
+        it: 'should select an absent item while searching',
+        payload:  { name: 'Absent planet', },
+        state:    { busy: true,  reset: { available: true,  }, input: { string: 'too',   }, list: { available: true,  items,                    } },
+        expected: { busy: true,  reset: { available: true,  }, input: { string: 'too',   }, list: { available: true,  items,                    } },
+      },
+    ];
+    const type = 'SEARCH_SELECT';
+    testItems.forEach(item => {
+      it(item.it, () => {
+        // Arrange
+        const { payload } = item;
+        // Act
+        const result = reducer(item.state, { type, payload });
+        // Assert
+        expect(result).toEqual(item.expected);
+      });
+    });
+  });
 });

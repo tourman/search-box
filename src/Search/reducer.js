@@ -4,6 +4,7 @@ const SEARCH_REQUEST = 'SEARCH_REQUEST';
 const SEARCH_RESPONSE = 'SEARCH_RESPONSE';
 const SEARCH_RESET = 'SEARCH_RESET';
 const SEARCH_CLOSE = 'SEARCH_CLOSE';
+const SEARCH_SELECT = 'SEARCH_SELECT';
 
 const initialState = {
   busy: false,
@@ -77,6 +78,16 @@ export default function search(prevState = initialState, action) {
       }
       case SEARCH_CLOSE: {
         draft.list.available = false;
+        break;
+      }
+      case SEARCH_SELECT: {
+        const item = draft.list.items.find(item => item.name === action.payload.name);
+        if (item) {
+          draft.busy = false;
+          draft.list.available = false;
+          draft.list.items = [item];
+          draft.input.string = action.payload.name;
+        }
         break;
       }
       default: {
