@@ -1,5 +1,5 @@
 import reducer from './reducer';
-import Search from './Search';
+import Search from './Connector';
 
 export {
   reducer,
