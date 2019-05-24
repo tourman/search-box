@@ -82,12 +82,11 @@ export default function search(prevState = initialState, action) {
       }
       case SEARCH_SELECT: {
         const item = draft.list.items.find(item => item.name === action.payload.name);
-        if (item) {
-          draft.busy = false;
-          draft.list.available = false;
-          draft.list.items = [item];
-          draft.input.string = action.payload.name;
-        }
+        if (!item) break;
+        draft.busy = false;
+        draft.list.available = false;
+        draft.list.items = [item];
+        draft.input.string = action.payload.name;
         break;
       }
       default: {
