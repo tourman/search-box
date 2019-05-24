@@ -26,7 +26,7 @@ function splitName(name, request) {
     'selected',
     'normal',
   ];
-  const re = new RegExp(`^(.*)(${request})(.*)$`);
+  const re = new RegExp(`^(.*)(${request})(.*)$`, 'i');
   const match = name.match(re);
   if (!match) {
     throw new Error(`No matches for name (${name}) and request (${request})`);
