@@ -24,16 +24,20 @@ export default function CloseManager(props) {
   });
 
   // Functions
+  function onClose() {
+    props.actions.onFocus();
+    props.actions.onClose();
+  }
   function onPreventClose(e) {
     e.nativeEvent.stopImmediatePropagation();
   }
   function onEscape(e) {
     const esc = ['Esc', 'Escape'].indexOf(e.key);
     if (!~esc) return;
-    props.actions.onClose();
+    onClose();
   }
   function onClick() {
-    props.actions.onClose();
+    onClose();
   }
 
   // Arrange

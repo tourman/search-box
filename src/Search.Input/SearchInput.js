@@ -3,7 +3,7 @@ import Input from './Input';
 import Reset from './Reset';
 
 export default function SearchInput(props) {
-  const { reset, input, actions, inputRef } = props;
+  const { reset, input, actions, inputRef, autoFocus } = props;
   const inputActions = {
     ...actions,
     onClick(e) {
@@ -24,7 +24,7 @@ export default function SearchInput(props) {
   };
   return (
     <>
-      <Input { ...input } actions={inputActions} ref={inputRef} />
+      <Input { ...input } actions={inputActions} autoFocus={autoFocus} ref={inputRef} />
       <Reset { ...reset } actions={resetActions} />
     </>
   );

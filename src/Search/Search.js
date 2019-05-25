@@ -13,7 +13,7 @@ export default function Search(props) {
   return (
     <SearchWrapper>
       <CloseManager actions={actions}>
-        <SearchInput { ...props } actions={actions} inputRef={inputRef} />
+        <SearchInput { ...props } actions={actions} inputRef={inputRef} autoFocus={true} />
         <BusyIndicator { ...props } />
         <PopupList { ...list } actions={actions} />
       </CloseManager>
