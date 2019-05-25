@@ -9,7 +9,12 @@ export default function List(props) {
   const visibility = visibilityMap.get(props.available);
   return (
     <ul
-      style={{ visibility }}
+      style={{
+        visibility,
+        height: 200,
+        width: 200,
+        overflowY: 'auto',
+      }}
       onClick={e => props.actions.onClick(e)}
     >
       {props.children}
