@@ -9,7 +9,7 @@ const actionMap = {
   onSelect:   types.SEARCH_SELECT,
 };
 
-const actions = mapValues(actionMap, type => payload => ({
+const actions = mapValues(actionMap, type => (payload = {}) => ({
   type,
   payload,
 }));
