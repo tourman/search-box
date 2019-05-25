@@ -338,4 +338,63 @@ describe('search reducer', () => {
       });
     });
   });
+
+  describe('navigation', () => {
+    const testItems = [
+      {
+        it: 'should move down when no selection',
+        payload: { type: 'SEARCH_DOWN', },
+        selectedIndex: -1,
+        expectedIndex: 0,
+      },
+      {
+        it: 'should move down when not last item selected',
+        payload: { type: 'SEARCH_DOWN', },
+        selectedIndex: 1,
+        expectedIndex: 2,
+      },
+      {
+        it: 'should not move down when the last item selected',
+        payload: { type: 'SEARCH_DOWN', },
+        selectedIndex: 3,
+        expectedIndex: 3,
+      },
+      {
+        it: 'should move up when not first item selected',
+        payload: { type: 'SEARCH_UP', },
+        selectedIndex: 3,
+        expectedIndex: 2,
+      },
+      {
+        it: 'should not move up when the first item selected',
+        payload: { type: 'SEARCH_UP', },
+        selectedIndex: 0,
+        expectedIndex: 0,
+      },
+      {
+        it: 'should not move up when no selection',
+        payload: { type: 'SEARCH_UP', },
+        selectedIndex: -1,
+        expectedIndex: -1,
+      },
+    ];
+    testItems.forEach(item => {
+      it(item.it, () => {
+        // Arrange
+        const state = cloneAndMerge({
+          list: {
+            items: stateItems['oo'].map((stateItem, index) => ({
+              ...stateItem,
+              selected: index === item.selectedIndex,
+            })),
+          },
+        });
+        // Act
+        const result = reducer(state, item.payload);
+        const selectedIndex = result.list.items.findIndex(resultItem => resultItem.selected);
+        // Assert
+        expect(selectedIndex).toEqual(item.expectedIndex);
+      });
+    });
+  });
 });

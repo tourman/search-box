@@ -6,6 +6,8 @@ const SEARCH_RESPONSE = 'SEARCH_RESPONSE';
 const SEARCH_RESET = 'SEARCH_RESET';
 const SEARCH_CLOSE = 'SEARCH_CLOSE';
 const SEARCH_SELECT = 'SEARCH_SELECT';
+const SEARCH_DOWN = 'SEARCH_DOWN';
+const SEARCH_UP = 'SEARCH_UP';
 
 const initialState = {
   busy: false,
@@ -89,6 +91,25 @@ export default function search(prevState = initialState, action) {
         draft.input.string = action.payload.name;
         break;
       }
+      case SEARCH_DOWN: {
+        const { items } = draft.list;
+        const selectedIndex = items.findIndex(item => item.selected);
+        const last = selectedIndex === items.length - 1;
+        if (last) break;
+        items[selectedIndex + 1].selected = true;
+        if (!~selectedIndex) break;
+        items[selectedIndex    ].selected = false;
+        break;
+      }
+      case SEARCH_UP: {
+        const { items } = draft.list;
+        const selectedIndex = items.findIndex(item => item.selected);
+        if (!~selectedIndex) break;
+        if (!selectedIndex) break;
+        items[selectedIndex - 1].selected = true;
+        items[selectedIndex    ].selected = false;
+        break;
+      }
       default: {
         break;
       }
@@ -103,4 +124,6 @@ export {
   SEARCH_RESET,
   SEARCH_CLOSE,
   SEARCH_SELECT,
+  SEARCH_DOWN,
+  SEARCH_UP,
 };
