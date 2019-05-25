@@ -19,7 +19,7 @@ const initialState = {
 
 const responses = {
   'oo': {
-    count: 3,
+    count: 4,
     next: null,
     previous: null,
     results: [
@@ -31,7 +31,10 @@ const responses = {
       },
       {
         name: 'Tatooine',
-      }
+      },
+      {
+        name: 'Moooooroo',
+      },
     ],
   },
 };
@@ -84,7 +87,32 @@ const stateItems = {
           text: 'ine',
         },
       ],
-    }
+    },
+    {
+      name: 'Moooooroo',
+      split: [
+        {
+          type: 'normal',
+          text: 'M',
+        },
+        {
+          type: 'selected',
+          text: 'oo',
+        },
+        {
+          type: 'selected',
+          text: 'oo',
+        },
+        {
+          type: 'normal',
+          text: 'or',
+        },
+        {
+          type: 'selected',
+          text: 'oo',
+        },
+      ],
+    },
   ],
   'Some test': [
     {

@@ -1,4 +1,5 @@
 import produce from 'immer';
+import { zip } from '../helpers';
 
 const SEARCH_REQUEST = 'SEARCH_REQUEST';
 const SEARCH_RESPONSE = 'SEARCH_RESPONSE';
@@ -21,23 +22,22 @@ const initialState = {
 };
 
 function splitName(name, request) {
-  const typeMap = [
-    'normal',
-    'selected',
-    'normal',
-  ];
-  const re = new RegExp(`^(.*)(${request})(.*)$`, 'i');
-  const match = name.match(re);
-  if (!match) {
+  const re = new RegExp(request, 'gi');
+  const tokenSets = {};
+  tokenSets.normal = name.split(re);
+  if (tokenSets.normal === 1) {
     throw new Error(`No matches for name (${name}) and request (${request})`);
   }
-  const tokens = [].slice.call(match, 1);
-  const split = tokens
-    .map((text, index) => ({
-      type: typeMap[index],
+  tokenSets.selected = name.match(re);
+  const tokensByType = Object.entries(tokenSets)
+    .map(([ type, tokens ]) => tokens.map(text => ({
+      type,
       text,
-    }))
-    .filter(item => !!item.text)
+    })))
+  ;
+  const split = zip(...tokensByType)
+    .flat()
+    .filter(splitToken => splitToken && splitToken.text)
   ;
   return split;
 }
