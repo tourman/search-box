@@ -17,6 +17,25 @@ const initialState = {
   },
 };
 
+const responses = {
+  'oo': {
+    count: 3,
+    next: null,
+    previous: null,
+    results: [
+      {
+        name: 'Naboo',
+      },
+      {
+        name: 'Dantoo/^$ine',
+      },
+      {
+        name: 'Tatooine',
+      }
+    ],
+  },
+};
+
 const stateItems = {
   'oo': [
     {
@@ -142,22 +161,7 @@ describe('search reducer', () => {
   });
 
   describe('response', () => {
-    const responseWithItems = {
-      count: 3,
-      next: null,
-      previous: null,
-      results: [
-        {
-          name: 'Naboo',
-        },
-        {
-          name: 'Dantoo/^$ine',
-        },
-        {
-          name: 'Tatooine',
-        }
-      ]
-    };
+    const responseWithItems = responses['oo'];
     const emptyResponse = {
       count: 0,
       next: null,
