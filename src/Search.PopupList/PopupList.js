@@ -1,29 +1,35 @@
 import React from 'react';
+
+import List from './List';
 import Item from './Item';
 
-const visibilityMap = new Map()
-  .set(true,  'visible')
-  .set(false, 'hidden')
-;
-
 export default function PopupList(props) {
-  const visibility = visibilityMap.get(props.available);
-  const { actions } = props;
+  const { actions, available } = props;
+  const listActions = {
+    ...actions,
+    onClick(e) {
+      props.actions.onPreventClose(e);
+    },
+  };
+  const itemActions = {
+    ...actions,
+    onClick({ name }) {
+      props.actions.onSelect({ name });
+      props.actions.onFocus();
+    },
+  };
   return (
-    <ul
-      style={{ visibility }}
-      onClick={e => {
-        props.actions.onPreventClose(e)
-        props.actions.onFocus();
-      }}
+    <List
+      available={available}
+      actions={listActions}
     >
       {props.items.map(item => (
         <Item
           {...item}
-          actions={actions}
+          actions={itemActions}
           key={item.name}
         />
       ))}
-    </ul>  
+    </List>
   );
 };

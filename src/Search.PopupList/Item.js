@@ -17,15 +17,13 @@ export default function Item(props) {
     );
   });
   return (
-    <li
-      key={props.name}
-    >
+    <li>
       <a
         href={props.name}
         onClick={e => {
           e.preventDefault();
           const { name } = props;
-          props.actions.onSelect({ name });
+          props.actions.onClick({ name });
         }}
       >
         {displayName}
