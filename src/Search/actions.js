@@ -7,6 +7,8 @@ const actionMap = {
   onReset:    types.SEARCH_RESET,
   onClose:    types.SEARCH_CLOSE,
   onSelect:   types.SEARCH_SELECT,
+  onUp:       types.SEARCH_UP,
+  onDown:     types.SEARCH_DOWN,
 };
 
 const actions = mapValues(actionMap, type => (payload = {}) => ({

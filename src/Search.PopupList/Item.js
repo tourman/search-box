@@ -5,7 +5,12 @@ const wrapperMap = new Map()
   .set('selected', 'b')
 ;
 
-export default function Item(props) {
+const backgroundMap = new Map()
+  .set(true, '#f0f0f0')
+;
+
+function Item(props, ref) {
+  const background = backgroundMap.get(props.selected);
   const displayName = props.split.map((token, index) => {
     const Wrapper = wrapperMap.get(token.type);
     return (
@@ -17,8 +22,11 @@ export default function Item(props) {
     );
   });
   return (
-    <li>
+    <li
+      style={{ background }}
+    >
       <a
+        ref={ref}
         href={props.name}
         onClick={e => {
           e.preventDefault();
@@ -31,3 +39,5 @@ export default function Item(props) {
     </li>
   );
 };
+
+export default React.forwardRef(Item);
