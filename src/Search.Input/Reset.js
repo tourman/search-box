@@ -13,6 +13,7 @@ export default function Reset(props) {
       onClick={e => {
         props.actions.onPreventClose(e);
         props.actions.onReset();
+        props.actions.onFocus();
       }}
     >
       Reset

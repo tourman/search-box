@@ -1,8 +1,9 @@
 import React from 'react';
 
-export default function Input(props) {
+function Input(props, ref) {
   return (
     <input
+      ref={ref}
       value={props.string}
       onChange={e => {
         const request = e.target.value;
@@ -12,3 +13,5 @@ export default function Input(props) {
     />
   );
 };
+
+export default React.forwardRef(Input);

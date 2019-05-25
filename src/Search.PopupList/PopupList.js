@@ -12,7 +12,10 @@ export default function PopupList(props) {
   return (
     <ul
       style={{ visibility }}
-      onClick={e => props.actions.onPreventClose(e)}
+      onClick={e => {
+        props.actions.onPreventClose(e)
+        props.actions.onFocus();
+      }}
     >
       {props.items.map(item => (
         <Item
