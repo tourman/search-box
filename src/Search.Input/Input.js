@@ -6,10 +6,10 @@ function Input(props, ref) {
       ref={ref}
       value={props.string}
       onChange={e => {
-        const request = e.target.value;
-        props.actions.onRequest({ request });
+        const { value } = e.target;
+        props.actions.onChange({ value });
       }}
-      onClick={e => props.actions.onPreventClose(e)}
+      onClick={e => props.actions.onClick(e)}
     />
   );
 };
