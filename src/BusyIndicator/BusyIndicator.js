@@ -1,17 +1,19 @@
 import React from 'react';
 
-const visibilityMap = new Map()
-  .set(true,  'visible')
-  .set(false, 'hidden')
+import SyncIcon from '@material-ui/icons/Sync';
+import SearchIcon from '@material-ui/icons/Search';
+import IconButton from '@material-ui/core/IconButton';
+
+const busyMap = new Map()
+  .set(true,  SyncIcon)
+  .set(false, SearchIcon)
 ;
 
 export default function BusyIndicator(props) {
-  const visibility = visibilityMap.get(props.busy);
+  const Icon = busyMap.get(props.busy);
   return (
-    <span
-      style={{ visibility }}
-    >
-      Loading...
-    </span>
+    <IconButton>
+      <Icon />
+    </IconButton>
   );
 };

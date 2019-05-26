@@ -10,8 +10,8 @@ function Search(props, ref) {
   const { list, actions, inputRef } = props;
   return (
     <Wrapper ref={ref}>
-      <Input     { ...props } actions={actions} ref={inputRef} />
       <BusyIndicator  { ...props } />
+      <Input     { ...props } actions={actions} ref={inputRef} />
       <ErrorIndicator { ...props } />
       <PopupList { ...list }  actions={actions} />
     </Wrapper>
