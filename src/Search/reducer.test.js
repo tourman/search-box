@@ -5,11 +5,13 @@ const cloneAndMerge = (...extensions) => merge({}, initialState, ...extensions);
 
 const initialState = {
   busy: false,
+  error: '',
   reset: {
     available: false,
   },
   input: {
     string: '',
+    error: false,
   },
   list: {
     available: false,
@@ -143,38 +145,50 @@ describe('search reducer', () => {
       {
         it: 'should handle request by search string while idle',
         payload:  { type, payload: { request: 'oo', }, },
-        state:    { busy: false, reset: { available: false, }, input: { string: '',    }, list: { available: false, items: [], } },
-        expected: { busy: true,  reset: { available: true,  }, input: { string: 'oo',  }, list: { available: false, items: [], } },
+        state:    { busy: false, reset: { available: false, }, input: { string: '',   error: false, }, list: { available: false, items: [], }, error: '', },
+        expected: { busy: true,  reset: { available: true,  }, input: { string: 'oo', error: false, }, list: { available: false, items: [], }, error: '', },
       },
       {
         it: 'should handle request by search string while idle',
         payload:  { type, payload: { request: 'o', }, },
-        state:    { busy: false, reset: { available: true,  }, input: { string: 'oo',  }, list: { available: true,  items,     } },
-        expected: { busy: true,  reset: { available: true,  }, input: { string: 'o',   }, list: { available: true,  items,     } },
+        state:    { busy: false, reset: { available: true,  }, input: { string: 'oo', error: false, }, list: { available: true,  items,     }, error: '', },
+        expected: { busy: true,  reset: { available: true,  }, input: { string: 'o',  error: false, }, list: { available: true,  items,     }, error: '', },
+      },
+      {
+        it: 'should handle request by search string while idle with an error',
+        payload:  { type, payload: { request: 'o', }, },
+        state:    { busy: false, reset: { available: true,  }, input: { string: 'oo', error: true,  }, list: { available: true,  items,     }, error: 'E', },
+        expected: { busy: true,  reset: { available: true,  }, input: { string: 'o',  error: false, }, list: { available: true,  items,     }, error: '',  },
       },
       {
         it: 'should handle an empty request by search string while idle',
         payload:  { type, payload: { request: '', }, },
-        state:    { busy: false, reset: { available: false, }, input: { string: '',    }, list: { available: false, items: [], } },
-        expected: { busy: false, reset: { available: false, }, input: { string: '',    }, list: { available: false, items: [], } },
+        state:    { busy: false, reset: { available: false, }, input: { string: '',   error: false, }, list: { available: false, items: [], }, error: '', },
+        expected: { busy: false, reset: { available: false, }, input: { string: '',   error: false, }, list: { available: false, items: [], }, error: '', },
       },
       {
         it: 'should handle reset by an empty string while idle',
         payload:  { type, payload: { request: '', }, },
-        state:    { busy: false, reset: { available: true,  }, input: { string: 'oo',  }, list: { available: true,  items,     } },
-        expected: { busy: false, reset: { available: false, }, input: { string: '',    }, list: { available: false, items,     } },
+        state:    { busy: false, reset: { available: true,  }, input: { string: 'oo', error: false, }, list: { available: true,  items,     }, error: '', },
+        expected: { busy: false, reset: { available: false, }, input: { string: '',   error: false, }, list: { available: false, items,     }, error: '', },
+      },
+      {
+        it: 'should handle reset by an empty string while idle with an error',
+        payload:  { type, payload: { request: '', }, },
+        state:    { busy: false, reset: { available: true,  }, input: { string: 'oo', error: true,  }, list: { available: true,  items,     }, error: 'E', },
+        expected: { busy: false, reset: { available: false, }, input: { string: '',   error: false, }, list: { available: false, items,     }, error: '',  },
       },
       {
         it: 'should handle request by search string while searching',
         payload:  { type, payload: { request: 'oo', }, },
-        state:    { busy: true,  reset: { available: true,  }, input: { string: 'o',   }, list: { available: false, items: [], } },
-        expected: { busy: true,  reset: { available: true,  }, input: { string: 'oo',  }, list: { available: false, items: [], } },
+        state:    { busy: true,  reset: { available: true,  }, input: { string: 'o',  error: false, }, list: { available: false, items: [], }, error: '', },
+        expected: { busy: true,  reset: { available: true,  }, input: { string: 'oo', error: false, }, list: { available: false, items: [], }, error: '', },
       },
       {
         it: 'should handle reset by an empty string while searching',
         payload:  { type, payload: { request: '', }, },
-        state:    { busy: true,  reset: { available: true,  }, input: { string: 'o' ,  }, list: { available: true,  items,     } },
-        expected: { busy: false, reset: { available: false, }, input: { string: '',    }, list: { available: false, items,     } },
+        state:    { busy: true,  reset: { available: true,  }, input: { string: 'o' , error: false, }, list: { available: true,  items,     }, error: '', },
+        expected: { busy: false, reset: { available: false, }, input: { string: '',   error: false, }, list: { available: false, items,     }, error: '', },
       },
     ];
     testItems.forEach(item => {
@@ -229,6 +243,39 @@ describe('search reducer', () => {
         // Arrange
         // Act
         const result = reducer(item.state, item.payload);
+        // Assert
+        expect(result).toEqual(item.expected);
+      });
+    });
+  });
+
+  describe('response error', () => {
+    const type = 'SEARCH_ERROR';
+    const error = 'Error message';
+    const items = stateItems['oo'];
+    const payload = { type, payload: { error }, };
+    const testItems = [
+      {
+        it: 'should handle an error message while searching from scratch',
+        state:    { busy: true,  reset: { available: true,  }, input: { string: 'oo', error: false, }, list: { available: false, items: [], }, error: '', },
+        expected: { busy: false, reset: { available: true,  }, input: { string: 'oo', error: true,  }, list: { available: false, items: [], }, error,     },
+      },
+      {
+        it: 'should handle an error message while searching from previous search',
+        state:    { busy: true,  reset: { available: true,  }, input: { string: 'oo', error: false, }, list: { available: true,  items,     }, error: '', },
+        expected: { busy: false, reset: { available: true,  }, input: { string: 'oo', error: true,  }, list: { available: true,  items,     }, error,     },
+      },
+      {
+        it: 'should handle an error message while searching from previous search with an error',
+        state:    { busy: true,  reset: { available: true,  }, input: { string: 'oo', error: true,  }, list: { available: true,  items,     }, error: 'E', },
+        expected: { busy: false, reset: { available: true,  }, input: { string: 'oo', error: true,  }, list: { available: true,  items,     }, error,      },
+      },
+    ];
+    testItems.forEach(item => {
+      it(item.it, () => {
+        // Arrange
+        // Act
+        const result = reducer(item.state, payload);
         // Assert
         expect(result).toEqual(item.expected);
       });

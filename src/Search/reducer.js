@@ -3,6 +3,7 @@ import { zip } from '../helpers';
 
 const SEARCH_REQUEST = 'SEARCH_REQUEST';
 const SEARCH_RESPONSE = 'SEARCH_RESPONSE';
+const SEARCH_ERROR = 'SEARCH_ERROR';
 const SEARCH_RESET = 'SEARCH_RESET';
 const SEARCH_CLOSE = 'SEARCH_CLOSE';
 const SEARCH_SELECT = 'SEARCH_SELECT';
@@ -11,11 +12,13 @@ const SEARCH_UP = 'SEARCH_UP';
 
 const initialState = {
   busy: false,
+  error: '',
   reset: {
     available: false,
   },
   input: {
     string: '',
+    error: false,
   },
   list: {
     available: false,
@@ -51,27 +54,35 @@ function reset(draft) {
   draft.list.available = false;
 }
 
-export default function search(prevState = initialState, action) {
+export default function search(prevState = initialState, { type, payload }) {
   const state = produce(prevState, draft => {
-    switch(action.type) {
+    switch(type) {
       case SEARCH_REQUEST: {
-        if (action.payload.request) {
+        if (payload.request) {
           draft.busy = true;
           draft.reset.available = true;
-          draft.input.string = action.payload.request;
+          draft.input.string = payload.request;
         } else {
           reset(draft);
         }
+        draft.error = '';
+        draft.input.error = false;
         break;
       }
       case SEARCH_RESPONSE: {
         draft.busy = false;
-        const results = action.payload.response.results || [];
+        const results = payload.response.results || [];
         draft.list.available = !!results.length;
         draft.list.items = results.map(({ name }) => ({
           name,
           split: splitName(name, draft.input.string),
         }));
+        break;
+      }
+      case SEARCH_ERROR: {
+        draft.error = payload.error;
+        draft.input.error = true;
+        draft.busy = false;
         break;
       }
       case SEARCH_RESET: {
@@ -83,12 +94,12 @@ export default function search(prevState = initialState, action) {
         break;
       }
       case SEARCH_SELECT: {
-        const item = draft.list.items.find(item => item.name === action.payload.name);
+        const item = draft.list.items.find(item => item.name === payload.name);
         if (!item) break;
         draft.busy = false;
         draft.list.available = false;
         draft.list.items = [item];
-        draft.input.string = action.payload.name;
+        draft.input.string = payload.name;
         break;
       }
       case SEARCH_DOWN: {
@@ -121,6 +132,7 @@ export default function search(prevState = initialState, action) {
 export {
   SEARCH_REQUEST,
   SEARCH_RESPONSE,
+  SEARCH_ERROR,
   SEARCH_RESET,
   SEARCH_CLOSE,
   SEARCH_SELECT,
