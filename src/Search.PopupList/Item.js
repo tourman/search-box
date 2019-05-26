@@ -1,4 +1,7 @@
 import React from 'react';
+import { flowRight } from '../helpers';
+
+import withNavigation from './withNavigation';
 
 const wrapperMap = new Map()
   .set('normal', React.Fragment)
@@ -40,4 +43,7 @@ function Item(props, ref) {
   );
 };
 
-export default React.forwardRef(Item);
+export default flowRight([
+  withNavigation,
+  React.forwardRef,
+])(Item);

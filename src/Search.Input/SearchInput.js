@@ -1,7 +1,7 @@
 import React from 'react';
 
-import Input from './InputWithNavigation';
-import Reset from './ResetWithNavigation';
+import Input from './Input';
+import Reset from './Reset';
 
 export default function SearchInput(props) {
   const { reset, input, actions, inputRef, autoFocus, withNavigation } = props;

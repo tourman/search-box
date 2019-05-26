@@ -1,15 +1,17 @@
 import React, { useEffect } from 'react';
 
-export default function withNavigation(Component) {
+export default function withNavigation(Search) {
   const navigationActionsMap = {
     'ArrowUp':   'onUp',
     'ArrowDown': 'onDown',
   };
 
-  return React.forwardRef((props, ref) => {
+  function SearchWithNavigation(props, ref) {
     // Functions
     function onNavigate(e) {
-      const isFocused = document.activeElement === ref.current;
+      const is = ref.current === document.activeElement;
+      const has = ref.current.contains(document.activeElement);
+      const isFocused = is || has;
       if (!isFocused) return;
       const action = navigationActionsMap[e.key];
       if (!action) return;
@@ -25,6 +27,8 @@ export default function withNavigation(Component) {
       };
     });
 
-    return (<Component {...props} ref={ref} />);
-  });
+    return (<Search {...props} ref={ref} />);
+  }
+
+  return React.forwardRef(SearchWithNavigation);
 };

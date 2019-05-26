@@ -1,7 +1,7 @@
 import React from 'react';
 
 import List from './List';
-import Item from './ItemWithNavigation';
+import Item from './Item';
 
 export default function PopupList(props) {
   const { actions, available, withNavigation } = props;

@@ -26,6 +26,7 @@ export default function withClosing(Search) {
     });
 
     return (<Search {...props} ref={ref} />);
-  };
+  }
+
   return React.forwardRef(SearchWithClosing);
 };
