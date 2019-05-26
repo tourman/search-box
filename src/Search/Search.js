@@ -8,7 +8,7 @@ import withFocus from './withFocus';
 import connector from './connector';
 import container from './container';
 
-import SearchWrapper from './Wrapper';
+import Wrapper from './Wrapper';
 import { BusyIndicator } from '../BusyIndicator';
 import { Input } from '../Search.Input';
 import { PopupList } from '../Search.PopupList';
@@ -16,11 +16,11 @@ import { PopupList } from '../Search.PopupList';
 function Search(props, ref) {
   const { list, actions, inputRef } = props;
   return (
-    <SearchWrapper ref={ref}>
+    <Wrapper ref={ref}>
       <Input     { ...props } actions={actions} ref={inputRef} autoFocus={true} />
       <BusyIndicator { ...props } />
       <PopupList { ...list }  actions={actions} />
-    </SearchWrapper>
+    </Wrapper>
   );
 }
 
