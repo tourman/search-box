@@ -1,11 +1,11 @@
 import merge from 'lodash/merge';
 import mapValues from 'lodash/mapValues';
 import zip from 'lodash/zip';
-import flow from 'lodash/flow';
+import flowRight from 'lodash/flowRight';
 
 export {
   merge,
   mapValues,
   zip,
-  flow,
+  flowRight,
 };

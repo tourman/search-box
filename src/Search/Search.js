@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react';
-import { flow } from '../helpers';
+import { flowRight } from '../helpers';
 
 import withClosing from './withClosing';
 import connector from './connector';
@@ -24,9 +24,9 @@ function Search(props, ref) {
   );
 }
 
-export default flow([
-  React.forwardRef,
-  withClosing,
-  connector,
+export default flowRight([
   container,
+  connector,
+  withClosing,
+  React.forwardRef,
 ])(Search);
