@@ -11,7 +11,7 @@ const styles = makeStyles({
 });
 
 function Input(props, ref) {
-  const { autoFocus, error, string } = props;
+  const { autoFocus, error, string, placeholder } = props;
   const classes = styles();
   return (
     <InputBase
@@ -20,6 +20,7 @@ function Input(props, ref) {
       error={error}
       autoFocus={autoFocus}
       value={string}
+      placeholder={placeholder}
       onChange={e => {
         const { value } = e.target;
         props.actions.onChange({ value });

@@ -20,7 +20,7 @@ function AppWrapper(props) {
 function App() {
   return (
     <AppWrapper>
-      <Search api={planets} autoFocus={true} />
+      <Search api={planets} autoFocus={true} placeholder="Try to search planets..." />
     </AppWrapper>
   );
 }
