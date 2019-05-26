@@ -1,9 +1,8 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useEffect } from 'react';
 
 export default function withClosing(Search) {
-  return function SearchWithClosing(props) {
+  function SearchWithClosing(props, ref) {
     const { onClose } = props.actions;
-    const ref = useRef();
 
     function onClick(e) {
       const is = ref.current === e.target;
@@ -28,4 +27,5 @@ export default function withClosing(Search) {
 
     return (<Search {...props} ref={ref} />);
   };
+  return React.forwardRef(SearchWithClosing);
 };

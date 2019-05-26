@@ -1,6 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import { flowRight } from '../helpers';
 
+import withRef from './withRef';
 import withClosing from './withClosing';
 import connector from './connector';
 import container from './container';
@@ -27,6 +28,7 @@ function Search(props, ref) {
 export default flowRight([
   container,
   connector,
+  withRef,
   withClosing,
   React.forwardRef,
 ])(Search);
