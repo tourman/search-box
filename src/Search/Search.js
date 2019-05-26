@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { flowRight } from '../helpers';
 
 import withRef from './withRef';
@@ -23,6 +24,13 @@ function Search(props, ref) {
     </Wrapper>
   );
 }
+
+Search.propTypes = {
+  api: PropTypes.shape({
+    search: PropTypes.func.isRequired,
+  }).isRequired,
+  autoFocus: PropTypes.bool,
+};
 
 export default flowRight([
   container,
