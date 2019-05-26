@@ -24,7 +24,7 @@ export default function PopupList(props) {
         <Item
           {...item}
           actions={itemActions}
-          key={item.name}
+          key={item.id}
           withNavigation={withNavigation}
         />
       ))}

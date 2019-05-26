@@ -73,7 +73,8 @@ export default function search(prevState = initialState, { type, payload }) {
         draft.busy = false;
         const results = payload.response.results || [];
         draft.list.available = !!results.length;
-        draft.list.items = results.map(({ name }) => ({
+        draft.list.items = results.map(({ name, ...item }) => ({
+          ...item,
           name,
           split: splitName(name, draft.input.string),
         }));
