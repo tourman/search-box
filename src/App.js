@@ -8,7 +8,7 @@ const AppWrapper = props => (<>{props.children}</>);
 function App() {
   return (
     <AppWrapper>
-      <Search api={planets} />
+      <Search api={planets} autoFocus={true} />
     </AppWrapper>
   );
 }

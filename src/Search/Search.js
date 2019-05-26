@@ -17,7 +17,7 @@ function Search(props, ref) {
   const { list, actions, inputRef } = props;
   return (
     <Wrapper ref={ref}>
-      <Input     { ...props } actions={actions} ref={inputRef} autoFocus={true} />
+      <Input     { ...props } actions={actions} ref={inputRef} />
       <BusyIndicator { ...props } />
       <PopupList { ...list }  actions={actions} />
     </Wrapper>
