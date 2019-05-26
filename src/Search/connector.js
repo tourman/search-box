@@ -1,7 +1,6 @@
 import { connect } from 'react-redux';
 import { mapValues } from '../helpers';
 import actions from './actions';
-import Search from './WithClosing';
 
 function mapStateToProps(state) {
   return state.search;
@@ -13,7 +12,9 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Search);
+export default function connector(Search) {
+  return connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(Search);
+};

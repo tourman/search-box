@@ -1,4 +1,9 @@
 import React, { useRef, useEffect } from 'react';
+import { flow } from '../helpers';
+
+import withClosing from './withClosing';
+import connector from './connector';
+import container from './container';
 
 import SearchWrapper from './Wrapper';
 import { BusyIndicator } from '../BusyIndicator';
@@ -19,4 +24,9 @@ function Search(props, ref) {
   );
 }
 
-export default React.forwardRef(Search);
+export default flow([
+  React.forwardRef,
+  withClosing,
+  connector,
+  container,
+])(Search);
