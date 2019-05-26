@@ -287,18 +287,23 @@ describe('search reducer', () => {
     const testItems = [
       {
         it: 'should handle search reseting',
-        state:    { busy: true,  reset: { available: true,  }, input: { string: 'test', }, list: { available: true,  items, } },
-        expected: { busy: false, reset: { available: false, }, input: { string: '',     }, list: { available: false, items, } },
+        state:    { busy: true,  reset: { available: true,  }, input: { string: 'test', error: false, }, list: { available: true,  items, }, error: '',  },
+        expected: { busy: false, reset: { available: false, }, input: { string: '',     error: false, }, list: { available: false, items, }, error: '',  },
       },
       {
         it: 'should handle search string clearing',
-        state:    { busy: false, reset: { available: true,  }, input: { string: 'test', }, list: { available: true,  items, } },
-        expected: { busy: false, reset: { available: false, }, input: { string: '',     }, list: { available: false, items, } },
+        state:    { busy: false, reset: { available: true,  }, input: { string: 'test', error: false, }, list: { available: true,  items, }, error: '',  },
+        expected: { busy: false, reset: { available: false, }, input: { string: '',     error: false, }, list: { available: false, items, }, error: '',  },
+      },
+      {
+        it: 'should handle search string clearing with an error',
+        state:    { busy: false, reset: { available: true,  }, input: { string: 'test', error: true,  }, list: { available: true,  items, }, error: 'E', },
+        expected: { busy: false, reset: { available: false, }, input: { string: '',     error: false, }, list: { available: false, items, }, error: '',  },
       },
       {
         it: 'should ignore search string clearing',
-        state:    { busy: false, reset: { available: false, }, input: { string: '',     }, list: { available: false, items, } },
-        expected: { busy: false, reset: { available: false, }, input: { string: '',     }, list: { available: false, items, } },
+        state:    { busy: false, reset: { available: false, }, input: { string: '',     error: false, }, list: { available: false, items, }, error: '',  },
+        expected: { busy: false, reset: { available: false, }, input: { string: '',     error: false, }, list: { available: false, items, }, error: '',  },
       },
     ];
     const payload = {

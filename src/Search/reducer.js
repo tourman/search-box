@@ -87,6 +87,8 @@ export default function search(prevState = initialState, { type, payload }) {
       }
       case SEARCH_RESET: {
         reset(draft);
+        draft.error = '';
+        draft.input.error = false;
         break;
       }
       case SEARCH_CLOSE: {
