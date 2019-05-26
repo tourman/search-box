@@ -18,19 +18,28 @@ const styles = makeStyles({
 });
 
 const wrapperMap = new Map()
-  .set('normal', React.Fragment)
-  .set('selected', 'b')
+  .set('normal', {
+    Wrapper: React.Fragment,
+    getProps: () => ({}),
+  })
+  .set('selected', {
+    Wrapper: 'b',
+    getProps: ({ classes }) => ({
+      className: classes.selected,
+    }),
+  })
 ;
 
 function Item(props, ref) {
   const { selected } = props;
   const classes = styles();
   const displayName = props.split.map((token, index) => {
-    const Wrapper = wrapperMap.get(token.type);
+    const { Wrapper, getProps } = wrapperMap.get(token.type);
+    const props = getProps({ classes });
     return (
       <Wrapper
         key={index}
-        className={classes.selected}
+        {...props}
       >
         {token.text}
       </Wrapper>
