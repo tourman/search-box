@@ -12,7 +12,8 @@
     "react-redux": "^7.0.3",
     "react-scripts": "3.0.1",
     "redux": "^4.0.1",
-    "redux-saga": "^1.0.2"
+    "redux-saga": "^1.0.2",
+    "shallow-equal": "^1.1.0"
   },
   "scripts": {
     "start": "react-scripts start",

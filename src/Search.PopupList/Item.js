@@ -1,5 +1,6 @@
 import React from 'react';
 import { flowRight } from '../helpers';
+import shallowEqual from 'shallow-equal/objects';
 
 import withNavigation from './withNavigation';
 
@@ -66,7 +67,12 @@ function Item(props, ref) {
   );
 };
 
+function areEqual({ actions: a, ...prevProps }, { actions: b, ...nextProps }) {
+  return shallowEqual(prevProps, nextProps);
+}
+
 export default flowRight([
+  Item => React.memo(Item, areEqual),
   withNavigation,
   React.forwardRef,
 ])(Item);
