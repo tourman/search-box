@@ -8,8 +8,13 @@ function* request({ api }, { type, payload }) {
   if (!request) return;
   // Debouncing request
   yield delay(500);
-  const response = yield call(api.search, { request });
-  yield put(actions.onResponse({ response }));
+  try {
+    const response = yield call(api.search, { request });
+    yield put(actions.onResponse({ response }));
+  } catch(e) {
+    const error = String(e);
+    yield put(actions.onError({ error }));
+  }
 }
 
 export default function* searchSaga({ api }) {
