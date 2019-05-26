@@ -3,7 +3,13 @@ export async function search({ request } = {}) {
     if (!url) {
       return prevResponse;
     }
-    const response = await fetch(url).then(response => response.json());
+    const rawResponse = await fetch(url);
+    if (!rawResponse.ok) {
+      let { status, statusText } = rawResponse;
+      statusText = statusText && `: (${statusText})`;
+      throw new Error(`${status}${statusText}`);
+    }
+    const response = await rawResponse.json();
     const nextResponse = {
       ...response,
       results: [
