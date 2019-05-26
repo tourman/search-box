@@ -1,9 +1,10 @@
 import React from 'react';
-import Input from './Input';
-import Reset from './Reset';
+
+import Input from './InputWithNavigation';
+import Reset from './ResetWithNavigation';
 
 export default function SearchInput(props) {
-  const { reset, input, actions, inputRef, autoFocus } = props;
+  const { reset, input, actions, inputRef, autoFocus, withNavigation } = props;
   const inputActions = {
     ...actions,
     onClick(e) {
@@ -24,8 +25,8 @@ export default function SearchInput(props) {
   };
   return (
     <>
-      <Input { ...input } actions={inputActions} autoFocus={autoFocus} ref={inputRef} />
-      <Reset { ...reset } actions={resetActions} />
+      <Input { ...input } actions={inputActions} withNavigation={withNavigation} autoFocus={autoFocus} ref={inputRef} />
+      <Reset { ...reset } actions={resetActions} withNavigation={withNavigation} />
     </>
   );
 };

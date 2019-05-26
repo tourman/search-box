@@ -1,10 +1,11 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 
 import SearchWrapper from './Wrapper';
 import CloseManager from './CloseManager';
 import { BusyIndicator } from '../BusyIndicator';
 import { SearchInput } from '../Search.Input';
 import { PopupList } from '../Search.PopupList';
+import withNavigation from './withNavigation';
 
 export default function Search(props) {
   const inputRef = useRef();
@@ -13,9 +14,9 @@ export default function Search(props) {
   return (
     <SearchWrapper>
       <CloseManager actions={actions}>
-        <SearchInput { ...props } actions={actions} inputRef={inputRef} autoFocus={true} />
+        <SearchInput { ...props } actions={actions} inputRef={inputRef} withNavigation={withNavigation} autoFocus={true} />
         <BusyIndicator { ...props } />
-        <PopupList { ...list } actions={actions} />
+        <PopupList { ...list } actions={actions} withNavigation={withNavigation} />
       </CloseManager>
     </SearchWrapper>
   );

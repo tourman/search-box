@@ -1,10 +1,10 @@
 import React from 'react';
 
-import List from './ListWithNavigation';
+import List from './List';
 import Item from './ItemWithNavigation';
 
 export default function PopupList(props) {
-  const { actions, available } = props;
+  const { actions, available, withNavigation } = props;
   const listActions = {
     ...actions,
     onClick(e) {
@@ -28,6 +28,7 @@ export default function PopupList(props) {
           {...item}
           actions={itemActions}
           key={item.name}
+          withNavigation={withNavigation}
         />
       ))}
     </List>

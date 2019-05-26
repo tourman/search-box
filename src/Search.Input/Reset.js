@@ -5,10 +5,11 @@ const visibilityMap = new Map()
   .set(false, 'hidden')
 ;
 
-export default function Reset(props) {
+function Reset(props, ref) {
   const visibility = visibilityMap.get(props.available);
   return (
     <button
+      ref={ref}
       style={{ visibility }}
       onClick={e => props.actions.onClick(e)}
     >
@@ -16,3 +17,5 @@ export default function Reset(props) {
     </button>
   );
 };
+
+export default React.forwardRef(Reset);

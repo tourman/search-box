@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 
-import Item from './Item';
+import ItemPres from './Item';
 
 export default function ItemWithNavigation(props) {
   const ref = useRef();
@@ -9,10 +9,6 @@ export default function ItemWithNavigation(props) {
     ref.current.focus();
   });
 
-  return (
-    <Item
-      {...props}
-      ref={ref}
-    />
-  );
+  const Item = props.withNavigation(ItemPres);
+  return (<Item {...props} ref={ref} />);
 };
