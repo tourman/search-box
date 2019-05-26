@@ -1,5 +1,5 @@
-import SearchInput from './SearchInput';
+import Input from './SearchInput';
 
 export {
-  SearchInput,
+  Input,
 };

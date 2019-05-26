@@ -3,8 +3,8 @@ import React from 'react';
 import Input from './Input';
 import Reset from './Reset';
 
-export default function SearchInput(props) {
-  const { reset, input, actions, inputRef, autoFocus, withNavigation } = props;
+function SearchInput(props, ref) {
+  const { reset, input, actions, autoFocus, withNavigation } = props;
   const inputActions = {
     ...actions,
     onChange({ value }) {
@@ -14,16 +14,17 @@ export default function SearchInput(props) {
   };
   const resetActions = {
     ...actions,
-    onClick(e) {
-      props.actions.onPreventClose(e);
+    onClick() {
       props.actions.onReset();
       props.actions.onFocus();
     },
   };
   return (
     <>
-      <Input { ...input } actions={inputActions} withNavigation={withNavigation} autoFocus={autoFocus} ref={inputRef} />
+      <Input { ...input } actions={inputActions} withNavigation={withNavigation} autoFocus={autoFocus} ref={ref} />
       <Reset { ...reset } actions={resetActions} withNavigation={withNavigation} />
     </>
   );
 };
+
+export default React.forwardRef(SearchInput);
