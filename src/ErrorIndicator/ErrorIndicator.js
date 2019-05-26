@@ -18,16 +18,16 @@ const styles = makeStyles({
 });
 
 const visibilityMap = new Map()
-  .set(true,  'visible')
-  .set(false, 'hidden')
+  .set(true,  'block')
+  .set(false, 'none')
 ;
 
 export default function ErrorIndicator(props) {
   const { error } = props;
-  const visibility = visibilityMap.get(!!error);
+  const display = visibilityMap.get(!!error);
   const classes = styles();
   return (
-    <Box m={1} style={{ visibility }} className={classes.wrapper}>
+    <Box m={1} style={{ display }} className={classes.wrapper}>
       <Chip
         icon={<ErrorIcon />}
         label={error}
