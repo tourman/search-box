@@ -1,9 +1,11 @@
 import React from 'react';
 
-export default function Wrapper(props) {
+function SearchWrapper(props, ref) {
   return (
-    <div>
+    <div ref={ref}>
       {props.children}
     </div>
   );
 };
+
+export default React.forwardRef(SearchWrapper);

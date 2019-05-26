@@ -15,7 +15,6 @@ export default function List(props) {
         width: 200,
         overflowY: 'auto',
       }}
-      onClick={e => props.actions.onClick(e)}
     >
       {props.children}
     </ul>

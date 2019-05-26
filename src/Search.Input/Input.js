@@ -11,7 +11,6 @@ function Input(props, ref) {
         const { value } = e.target;
         props.actions.onChange({ value });
       }}
-      onClick={e => props.actions.onClick(e)}
     />
   );
 };

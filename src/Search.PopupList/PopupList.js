@@ -7,9 +7,6 @@ export default function PopupList(props) {
   const { actions, available, withNavigation } = props;
   const listActions = {
     ...actions,
-    onClick(e) {
-      props.actions.onPreventClose(e);
-    },
   };
   const itemActions = {
     ...actions,

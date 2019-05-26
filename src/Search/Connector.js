@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { mapValues } from '../helpers';
 import actions from './actions';
-import Search from './Search';
+import Search from './WithClosing';
 
 function mapStateToProps(state) {
   return state.search;

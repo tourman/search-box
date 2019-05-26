@@ -7,9 +7,6 @@ export default function SearchInput(props) {
   const { reset, input, actions, inputRef, autoFocus, withNavigation } = props;
   const inputActions = {
     ...actions,
-    onClick(e) {
-      props.actions.onPreventClose(e);
-    },
     onChange({ value }) {
       const request = value;
       props.actions.onRequest({ request });
