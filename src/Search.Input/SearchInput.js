@@ -16,7 +16,6 @@ function SearchInput(props, ref) {
     ...actions,
     onClick() {
       props.actions.onReset();
-      props.actions.onFocus();
     },
   };
   return (

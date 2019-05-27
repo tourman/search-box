@@ -12,6 +12,7 @@ const initialState = {
   input: {
     string: '',
     error: false,
+    focusCounter: 0,
   },
   list: {
     available: false,
@@ -287,23 +288,23 @@ describe('search reducer', () => {
     const testItems = [
       {
         it: 'should handle search reseting',
-        state:    { busy: true,  reset: { available: true,  }, input: { string: 'test', error: false, }, list: { available: true,  items, }, error: '',  },
-        expected: { busy: false, reset: { available: false, }, input: { string: '',     error: false, }, list: { available: false, items, }, error: '',  },
+        state:    { busy: true,  reset: { available: true,  }, input: { string: 'test', error: false, focusCounter: 0, }, list: { available: true,  items, }, error: '',  },
+        expected: { busy: false, reset: { available: false, }, input: { string: '',     error: false, focusCounter: 1, }, list: { available: false, items, }, error: '',  },
       },
       {
         it: 'should handle search string clearing',
-        state:    { busy: false, reset: { available: true,  }, input: { string: 'test', error: false, }, list: { available: true,  items, }, error: '',  },
-        expected: { busy: false, reset: { available: false, }, input: { string: '',     error: false, }, list: { available: false, items, }, error: '',  },
+        state:    { busy: false, reset: { available: true,  }, input: { string: 'test', error: false, focusCounter: 2, }, list: { available: true,  items, }, error: '',  },
+        expected: { busy: false, reset: { available: false, }, input: { string: '',     error: false, focusCounter: 3, }, list: { available: false, items, }, error: '',  },
       },
       {
         it: 'should handle search string clearing with an error',
-        state:    { busy: false, reset: { available: true,  }, input: { string: 'test', error: true,  }, list: { available: true,  items, }, error: 'E', },
-        expected: { busy: false, reset: { available: false, }, input: { string: '',     error: false, }, list: { available: false, items, }, error: '',  },
+        state:    { busy: false, reset: { available: true,  }, input: { string: 'test', error: true,  focusCounter: 4, }, list: { available: true,  items, }, error: 'E', },
+        expected: { busy: false, reset: { available: false, }, input: { string: '',     error: false, focusCounter: 5, }, list: { available: false, items, }, error: '',  },
       },
       {
         it: 'should ignore search string clearing',
-        state:    { busy: false, reset: { available: false, }, input: { string: '',     error: false, }, list: { available: false, items, }, error: '',  },
-        expected: { busy: false, reset: { available: false, }, input: { string: '',     error: false, }, list: { available: false, items, }, error: '',  },
+        state:    { busy: false, reset: { available: false, }, input: { string: '',     error: false, focusCounter: 6, }, list: { available: false, items, }, error: '',  },
+        expected: { busy: false, reset: { available: false, }, input: { string: '',     error: false, focusCounter: 7, }, list: { available: false, items, }, error: '',  },
       },
     ];
     const payload = {
@@ -356,26 +357,26 @@ describe('search reducer', () => {
       {
         it: 'should select an item while idle',
         payload:  { name: 'Naboo', },
-        state:    { busy: false, reset: { available: true,  }, input: { string: 'oo',    }, list: { available: true,  items,                    } },
-        expected: { busy: false, reset: { available: true,  }, input: { string: 'Naboo', }, list: { available: false, items: items.slice(0, 1), } },
+        state:    { busy: false, reset: { available: true,  }, input: { string: 'oo',    focusCounter: 0, }, list: { available: true,  items,                    } },
+        expected: { busy: false, reset: { available: true,  }, input: { string: 'Naboo', focusCounter: 1, }, list: { available: false, items: items.slice(0, 1), } },
       },
       {
         it: 'should select an item while searching',
         payload:  { name: 'Naboo', },
-        state:    { busy: true,  reset: { available: true,  }, input: { string: 'too',   }, list: { available: true,  items,                    } },
-        expected: { busy: false, reset: { available: true,  }, input: { string: 'Naboo', }, list: { available: false, items: items.slice(0, 1), } },
+        state:    { busy: true,  reset: { available: true,  }, input: { string: 'too',   focusCounter: 2, }, list: { available: true,  items,                    } },
+        expected: { busy: false, reset: { available: true,  }, input: { string: 'Naboo', focusCounter: 3, }, list: { available: false, items: items.slice(0, 1), } },
       },
       {
         it: 'should select an absent item while idle',
         payload:  { name: 'Absent planet', },
-        state:    { busy: false, reset: { available: true,  }, input: { string: 'oo',    }, list: { available: true,  items,                    } },
-        expected: { busy: false, reset: { available: true,  }, input: { string: 'oo',    }, list: { available: true,  items,                    } },
+        state:    { busy: false, reset: { available: true,  }, input: { string: 'oo',    focusCounter: 4, }, list: { available: true,  items,                    } },
+        expected: { busy: false, reset: { available: true,  }, input: { string: 'oo',    focusCounter: 4, }, list: { available: true,  items,                    } },
       },
       {
         it: 'should select an absent item while searching',
         payload:  { name: 'Absent planet', },
-        state:    { busy: true,  reset: { available: true,  }, input: { string: 'too',   }, list: { available: true,  items,                    } },
-        expected: { busy: true,  reset: { available: true,  }, input: { string: 'too',   }, list: { available: true,  items,                    } },
+        state:    { busy: true,  reset: { available: true,  }, input: { string: 'too',   focusCounter: 6, }, list: { available: true,  items,                    } },
+        expected: { busy: true,  reset: { available: true,  }, input: { string: 'too',   focusCounter: 6, }, list: { available: true,  items,                    } },
       },
     ];
     const type = 'SEARCH_SELECT';

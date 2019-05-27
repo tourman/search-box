@@ -19,6 +19,7 @@ const initialState = {
   input: {
     string: '',
     error: false,
+    focusCounter: 0,
   },
   list: {
     available: false,
@@ -90,6 +91,7 @@ export default function search(prevState = initialState, { type, payload }) {
         reset(draft);
         draft.error = '';
         draft.input.error = false;
+        draft.input.focusCounter++;
         break;
       }
       case SEARCH_CLOSE: {
@@ -103,6 +105,7 @@ export default function search(prevState = initialState, { type, payload }) {
         draft.list.available = false;
         draft.list.items = [item];
         draft.input.string = payload.name;
+        draft.input.focusCounter++;
         break;
       }
       case SEARCH_DOWN: {

@@ -12,7 +12,6 @@ export default function PopupList(props) {
     ...actions,
     onClick({ name }) {
       props.actions.onSelect({ name });
-      props.actions.onFocus();
     },
   };
   return (
