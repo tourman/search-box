@@ -99,12 +99,13 @@ export default function search(prevState = initialState, { type, payload }) {
         break;
       }
       case SEARCH_SELECT: {
-        const item = draft.list.items.find(item => item.name === payload.name);
+        const { id } = payload;
+        const item = draft.list.items.find(item => item.id === id);
         if (!item) break;
         draft.busy = false;
         draft.list.available = false;
         draft.list.items = [item];
-        draft.input.string = payload.name;
+        draft.input.string = item.name;
         draft.input.focusCounter++;
         break;
       }

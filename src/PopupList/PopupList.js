@@ -10,8 +10,8 @@ export default function PopupList(props) {
   };
   const itemActions = {
     ...actions,
-    onClick({ name }) {
-      props.actions.onSelect({ name });
+    onClick({ id }) {
+      props.actions.onSelect({ id });
     },
   };
   return (

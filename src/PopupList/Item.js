@@ -56,8 +56,8 @@ function Item(props, ref) {
       ref={ref}
       onClick={e => {
         e.preventDefault();
-        const { name } = props;
-        props.actions.onClick({ name });
+        const { id } = props;
+        props.actions.onClick({ id });
       }}
     >
       <ListItemText>
