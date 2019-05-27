@@ -23,9 +23,14 @@ export async function search({ request } = {}) {
   const encodedRequest = encodeURIComponent(request);
   const url = `https://swapi.co/api/planets/?search=${encodedRequest}`;
   const response = await getResponse(url);
-  response.results = response.results.map(item => ({
-    ...item,
-    id: item.name,
-  }));
+  const re = new RegExp(request, 'i');
+  response.results = response.results
+    .map(item => ({
+      ...item,
+      id: item.name,
+    }))
+    .filter(item => re.test(item.name))
+  ;
+  response.count = response.results.length;
   return response;
 };
