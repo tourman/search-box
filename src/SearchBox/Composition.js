@@ -8,22 +8,22 @@ import withFocus from './withFocus';
 import connector from './connector';
 import container from './container';
 
-import Search from './Search';
+import SearchBox from './SearchBox';
 
-const ComposedSearch = flowRight([
+const ComposedSearchBox = flowRight([
   container,
   connector,
   withRef,
   withClosing,
   withNavigation,
   withFocus,
-])(Search);
+])(SearchBox);
 
-ComposedSearch.propTypes = {
+ComposedSearchBox.propTypes = {
   api: PropTypes.shape({
     search: PropTypes.func.isRequired,
   }).isRequired,
   autoFocus: PropTypes.bool,
 };
 
-export default ComposedSearch;
+export default ComposedSearchBox;

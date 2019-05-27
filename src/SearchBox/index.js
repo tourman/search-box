@@ -1,7 +1,7 @@
 import reducer from './reducer';
-import Search from './Composition';
+import SearchBox from './Composition';
 
 export {
   reducer,
-  Search,
+  SearchBox,
 };
